@@ -1,0 +1,14 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for cat in categories %}
+    <div class="bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition">
+      <h2 class="text-xl font-semibold text-blue-700 mb-2">{{ cat.name }}</h2>
+      <ul class="list-disc list-inside text-gray-700 space-y-1">
+        {% for sub in cat.subcategories.all %}
+          <li>{{ sub.name }}</li>
+        {% empty %}
+          <li class="italic text-gray-400">Нет подкатегорий</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+</div>

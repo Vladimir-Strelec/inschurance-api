@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Hero section with parallax -->
+<section class="relative h-[70vh] flex items-center justify-center bg-fixed bg-center bg-cover" style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62');">
+  <div class="bg-black bg-opacity-40 w-full h-full absolute top-0 left-0"></div>
+  <div class="relative z-10 text-white text-center px-4">
+    <h2 class="text-4xl md:text-5xl font-bold mb-4">Надежные страховые решения</h2>
+    <p class="text-lg md:text-xl">Защитите ваше будущее с уверенностью уже сегодня</p>
+  </div>
+</section>
+
+<!-- Категории -->
+<section id="categories" class="bg-white py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-primary text-center mb-10">Наши категории</h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      {% for cat in categories %}
+      <div class="bg-gray-50 p-6 rounded-lg shadow hover:shadow-md transition">
+        <h3 class="text-xl font-semibold text-primary mb-2">{{ cat.name }}</h3>
+        <ul class="list-disc ml-5 text-gray-700">
+          {% for sub in cat.subcategories.all %}
+          <li>{{ sub.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- О нас -->
+<section id="about" class="bg-gray-100 py-16">
+  <div class="container mx-auto px-4 max-w-3xl text-center">
+    <h2 class="text-3xl font-bold text-primary mb-6">О нас</h2>
+    <p class="text-lg text-gray-700">
+      Мы — ведущая страховая компания, предоставляющая инновационные решения для защиты вашего будущего.
+      Надежность, опыт и индивидуальный подход — наши ключевые принципы. С нами вы в безопасности.
+    </p>
+  </div>
+</section>
+
+<!-- Контакты -->
+<section id="contact" class="bg-white py-16">
+  <div class="container mx-auto px-4 max-w-xl">
+    <h2 class="text-3xl font-bold text-primary text-center mb-6">Связаться с нами</h2>
+    <div id="contact-form">
+      {% include 'categories/contact_form.html' %}
+    </div>
+  </div>
+</section>
+{% endblock %}
