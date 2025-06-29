@@ -6,8 +6,12 @@
   method="POST"
 >
   {% csrf_token %}
-  <input type="text" name="name" placeholder="Ваше имя" class="w-full border border-gray-300 rounded px-4 py-2" required>
   <input type="email" name="email" placeholder="Email" class="w-full border border-gray-300 rounded px-4 py-2" required>
-  <textarea name="message" placeholder="Сообщение" rows="4" class="w-full border border-gray-300 rounded px-4 py-2" required></textarea>
+  <input type="tel" name="phone" placeholder="+49 151 12345678" class="w-full border border-gray-300 rounded px-4 py-2" required>
+  {% if errors.phone %}
+    <p class="text-red-500 text-sm mt-1">{{ errors.phone.0 }}</p>
+  {% endif %}
+  <textarea name="message" placeholder="Сообщение" rows="4" class="w-full border border-gray-300 rounded px-4 py-2"></textarea>
+
   <button type="submit" class="bg-primary text-white px-6 py-2 rounded hover:bg-blue-800">Отправить</button>
 </form>

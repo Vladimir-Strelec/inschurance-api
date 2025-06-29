@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import ContactMessageSerializer
-from .models import MainCategory, SubCategory
+from .models import MainCategory, SubCategory, InsuranceStory
 from .serializers import MainCategorySerializer, SubCategorySerializer
 
 from django.views.decorators.http import require_POST
@@ -23,8 +23,10 @@ class SubCategoryViewSet(viewsets.ModelViewSet):
 
 
 def category_ui(request):
+    stories = InsuranceStory.objects.order_by('-created_at')[:10]
     return render(request, 'main.html', {
-        'categories': MainCategory.objects.prefetch_related('subcategories')
+        'categories': MainCategory.objects.prefetch_related('subcategories'),
+        'stories': stories
     })
 
 

@@ -1,3 +1,4 @@
+from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework import serializers
 from .models import MainCategory, SubCategory
 from rest_framework import serializers
@@ -19,6 +20,7 @@ class MainCategorySerializer(serializers.ModelSerializer):
 
 
 class ContactMessageSerializer(serializers.ModelSerializer):
+    phone = PhoneNumberField(region='DE')
     class Meta:
         model = ContactMessage
         fields = '__all__'

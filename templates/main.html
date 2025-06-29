@@ -1,23 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- Hero section with parallax -->
-<section class="relative h-[70vh] flex items-center justify-center bg-fixed bg-center bg-cover" style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62');">
-  <div class="bg-black bg-opacity-40 w-full h-full absolute top-0 left-0"></div>
-  <div class="relative z-10 text-white text-center px-4">
+
+<!-- Hero с параллаксом -->
+<section class="relative h-[70vh] flex items-center justify-center bg-fixed bg-center bg-cover"
+         style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62');">
+  <div class="absolute inset-0 bg-black/40"></div>
+  <div class="relative z-10 text-white text-center px-4 fade-up">
     <h2 class="text-4xl md:text-5xl font-bold mb-4">Надежные страховые решения</h2>
     <p class="text-lg md:text-xl">Защитите ваше будущее с уверенностью уже сегодня</p>
   </div>
 </section>
 
 <!-- Категории -->
-<section id="categories" class="bg-white py-16">
-  <div class="container mx-auto px-4">
+<section class="bg-white py-16" id="categories">
+  <div class="container mx-auto px-4 fade-up">
     <h2 class="text-3xl font-bold text-primary text-center mb-10">Наши категории</h2>
     <div class="grid md:grid-cols-2 gap-8">
       {% for cat in categories %}
-      <div class="bg-gray-50 p-6 rounded-lg shadow hover:shadow-md transition">
+      <div class="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 fade-up">
         <h3 class="text-xl font-semibold text-primary mb-2">{{ cat.name }}</h3>
-        <ul class="list-disc ml-5 text-gray-700">
+        <ul class="list-disc ml-5 text-gray-700 space-y-1">
           {% for sub in cat.subcategories.all %}
           <li>{{ sub.name }}</li>
           {% endfor %}
@@ -29,23 +31,80 @@
 </section>
 
 <!-- О нас -->
-<section id="about" class="bg-gray-100 py-16">
-  <div class="container mx-auto px-4 max-w-3xl text-center">
-    <h2 class="text-3xl font-bold text-primary mb-6">О нас</h2>
-    <p class="text-lg text-gray-700">
-      Мы — ведущая страховая компания, предоставляющая инновационные решения для защиты вашего будущего.
-      Надежность, опыт и индивидуальный подход — наши ключевые принципы. С нами вы в безопасности.
-    </p>
+<section class="bg-gray-100 py-16" id="about">
+  <div class="container mx-auto px-4 max-w-4xl flex flex-col md:flex-row items-center gap-10 fade-up">
+    <div class="md:w-1/2">
+      <h2 class="text-3xl font-bold text-primary mb-4">О нас</h2>
+      <p class="text-lg text-gray-700">
+        Мы — ведущая страховая компания, предоставляющая инновационные решения для защиты вашего будущего.
+        Надежность, опыт и индивидуальный подход — наши ключевые принципы. С нами вы в безопасности.
+      </p>
+    </div>
+    <div class="md:w-1/2">
+      <img class="rounded-2xl shadow-xl w-full max-w-sm mx-auto"
+           src="https://images.unsplash.com/photo-1623852881187-a3790f3b29ae?q=80&w=2047&auto=format&fit=crop"
+           alt="Наш сотрудник">
+    </div>
   </div>
 </section>
 
 <!-- Контакты -->
-<section id="contact" class="bg-white py-16">
-  <div class="container mx-auto px-4 max-w-xl">
+<section class="bg-white py-16" id="contact">
+  <div class="container mx-auto px-4 max-w-xl fade-up">
     <h2 class="text-3xl font-bold text-primary text-center mb-6">Связаться с нами</h2>
     <div id="contact-form">
       {% include 'categories/contact_form.html' %}
     </div>
   </div>
+
+  <!-- Карусель -->
+  <section class="bg-gray-50 py-12 fade-up">
+    <h3 class="text-2xl font-bold text-center text-primary mb-6">Реальные истории страхования</h3>
+
+    <div class="overflow-x-auto scroll-smooth px-4 -mx-4" style="scroll-snap-type: x mandatory;">
+      <div class="flex gap-6 w-max" style="touch-action: pan-x;">
+        {% for story in stories %}
+        <div class="scroll-snap-start bg-white shadow-md rounded-xl p-6 w-[80vw] sm:w-[300px] transition duration-300 hover:shadow-xl hover:-translate-y-1">
+          <h4 class="text-primary font-semibold mb-2">{{ story.title }}</h4>
+          <p class="text-gray-700 text-sm">{{ story.content|truncatechars:150 }}</p>
+          <a class="text-blue-600 hover:text-blue-800 font-medium mt-2 inline-block transition" href="#">Читать</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
 </section>
+
+<!-- Второй параллакс -->
+<section class="relative h-[50vh] flex items-center justify-center bg-fixed bg-center bg-cover"
+         style="background-image: url('https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&q=80&w=2048');">
+  <div class="absolute inset-0 bg-black/50"></div>
+  <div class="relative z-10 text-white text-center px-4 fade-up">
+    <h3 class="text-3xl md:text-4xl font-bold mb-2">Каждая история — это опыт</h3>
+    <p class="text-lg">Мы помогаем людям обрести уверенность после непредвиденного</p>
+  </div>
+</section>
+
+<!-- Скрипты -->
+<script>
+  // Fade-up при прокрутке
+  const fadeElements = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('animate-fade-up');
+    });
+  }, { threshold: 0.1 });
+  fadeElements.forEach(el => observer.observe(el));
+
+  // Кнопка "нажатия" (если есть в форме или добавишь)
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('button, a.button');
+    buttons.forEach(btn => {
+      btn.classList.add('transition', 'active:scale-95', 'duration-150', 'ease-in-out');
+    });
+  });
+</script>
+
+
+
 {% endblock %}
