@@ -4,107 +4,242 @@
 <!-- Hero с параллаксом -->
 <section class="relative h-[70vh] flex items-center justify-center bg-fixed bg-center bg-cover"
          style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62');">
-  <div class="absolute inset-0 bg-black/40"></div>
-  <div class="relative z-10 text-white text-center px-4 fade-up">
-    <h2 class="text-4xl md:text-5xl font-bold mb-4">Надежные страховые решения</h2>
-    <p class="text-lg md:text-xl">Защитите ваше будущее с уверенностью уже сегодня</p>
-  </div>
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative z-10 text-white text-center px-4 fade-up">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Надежные страховые решения</h2>
+        <p class="text-lg md:text-xl">Защитите ваше будущее с уверенностью уже сегодня</p>
+    </div>
 </section>
 
 <!-- Категории -->
 <section class="bg-white py-16" id="categories">
-  <div class="container mx-auto px-4 fade-up">
-    <h2 class="text-3xl font-bold text-primary text-center mb-10">Наши категории</h2>
-    <div class="grid md:grid-cols-2 gap-8">
-      {% for cat in categories %}
-      <div class="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 fade-up">
-        <h3 class="text-xl font-semibold text-primary mb-2">{{ cat.name }}</h3>
-        <ul class="list-disc ml-5 text-gray-700 space-y-1">
-          {% for sub in cat.subcategories.all %}
-          <li>{{ sub.name }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endfor %}
+    <div class="container mx-auto px-4 fade-up">
+        <h2 class="text-3xl font-bold text-primary text-center mb-10">Наши категории</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            {% for cat in categories %}
+            <div class="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 fade-up">
+                <h3 class="text-xl font-semibold text-primary mb-2">{{ cat.name }}</h3>
+                <ul class="list-disc ml-5 text-gray-700 space-y-1">
+                    {% for sub in cat.subcategories.all %}
+                    <li>{{ sub.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-  </div>
 </section>
 
 <!-- О нас -->
 <section class="bg-gray-100 py-16" id="about">
-  <div class="container mx-auto px-4 max-w-4xl flex flex-col md:flex-row items-center gap-10 fade-up">
-    <div class="md:w-1/2">
-      <h2 class="text-3xl font-bold text-primary mb-4">О нас</h2>
-      <p class="text-lg text-gray-700">
-        Мы — ведущая страховая компания, предоставляющая инновационные решения для защиты вашего будущего.
-        Надежность, опыт и индивидуальный подход — наши ключевые принципы. С нами вы в безопасности.
-      </p>
+    <div class="container mx-auto px-4 max-w-4xl flex flex-col md:flex-row items-center gap-10 fade-up">
+        <div class="md:w-1/2">
+            <h2 class="text-3xl font-bold text-primary mb-4">О нас</h2>
+            <p class="text-lg text-gray-700">
+                Мы — ведущая страховая компания, предоставляющая инновационные решения для защиты вашего будущего.
+                Надежность, опыт и индивидуальный подход — наши ключевые принципы. С нами вы в безопасности.
+            </p>
+        </div>
+        <div class="md:w-1/2">
+            <img alt="Наш сотрудник"
+                 class="rounded-2xl shadow-xl w-full max-w-sm mx-auto"
+                 src="https://images.unsplash.com/photo-1623852881187-a3790f3b29ae?q=80&w=2047&auto=format&fit=crop">
+        </div>
     </div>
-    <div class="md:w-1/2">
-      <img class="rounded-2xl shadow-xl w-full max-w-sm mx-auto"
-           src="https://images.unsplash.com/photo-1623852881187-a3790f3b29ae?q=80&w=2047&auto=format&fit=crop"
-           alt="Наш сотрудник">
-    </div>
-  </div>
 </section>
 
 <!-- Контакты -->
 <section class="bg-white py-16" id="contact">
-  <div class="container mx-auto px-4 max-w-xl fade-up">
-    <h2 class="text-3xl font-bold text-primary text-center mb-6">Связаться с нами</h2>
-    <div id="contact-form">
-      {% include 'categories/contact_form.html' %}
-    </div>
-  </div>
-
-  <!-- Карусель -->
-  <section class="bg-gray-50 py-12 fade-up">
-    <h3 class="text-2xl font-bold text-center text-primary mb-6">Реальные истории страхования</h3>
-
-    <div class="overflow-x-auto scroll-smooth px-4 -mx-4" style="scroll-snap-type: x mandatory;">
-      <div class="flex gap-6 w-max" style="touch-action: pan-x;">
-        {% for story in stories %}
-        <div class="scroll-snap-start bg-white shadow-md rounded-xl p-6 w-[80vw] sm:w-[300px] transition duration-300 hover:shadow-xl hover:-translate-y-1">
-          <h4 class="text-primary font-semibold mb-2">{{ story.title }}</h4>
-          <p class="text-gray-700 text-sm">{{ story.content|truncatechars:150 }}</p>
-          <a class="text-blue-600 hover:text-blue-800 font-medium mt-2 inline-block transition" href="#">Читать</a>
+    <div class="container mx-auto px-4 max-w-xl fade-up">
+        <h2 class="text-3xl font-bold text-primary text-center mb-6">Связаться с нами</h2>
+        <div id="contact-form">
+            {% include 'categories/contact_form.html' %}
         </div>
-        {% endfor %}
-      </div>
     </div>
-  </section>
 </section>
 
+<!-- Карусель -->
+<div class="overflow-x-auto scroll-smooth snap-x snap-mandatory px-4 -mx-4" id="carousel"
+     style="will-change: transform;">
+    <section class="bg-gray-50 py-12 fade-up">
+
+        <h3 class="text-2xl font-bold text-center text-primary mb-8">Реальные истории страхования</h3>
+
+        <!-- Обертка с Swiper -->
+        <div class="swiper w-full px-6 max-w-6xl mx-auto">
+            <div class="swiper-wrapper">
+                {% for story in stories %}
+                <div class="swiper-slide bg-white shadow-md rounded-xl p-6 sm:w-[400px] w-[85vw] transition hover:shadow-xl hover:-translate-y-1">
+                    <h4 class="text-primary font-semibold text-lg mb-2">{{ story.title }}</h4>
+                    <p class="text-gray-700 text-sm">{{ story.content|truncatechars:150 }}</p>
+                    <a class="text-blue-600 hover:text-blue-800 font-medium mt-2 inline-block transition" href="#">Читать</a>
+                </div>
+                {% empty %}
+                <div class="swiper-slide text-gray-500 text-center">Нет историй для отображения.</div>
+                {% endfor %}
+            </div>
+
+            <!-- Стрелки -->
+            <div class="swiper-button-next text-primary"></div>
+            <div class="swiper-button-prev text-primary"></div>
+
+            <!-- Точки -->
+            <div class="swiper-pagination mt-4"></div>
+        </div>
+
+
+    </section>
+</div>
 <!-- Второй параллакс -->
 <section class="relative h-[50vh] flex items-center justify-center bg-fixed bg-center bg-cover"
          style="background-image: url('https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&q=80&w=2048');">
-  <div class="absolute inset-0 bg-black/50"></div>
-  <div class="relative z-10 text-white text-center px-4 fade-up">
-    <h3 class="text-3xl md:text-4xl font-bold mb-2">Каждая история — это опыт</h3>
-    <p class="text-lg">Мы помогаем людям обрести уверенность после непредвиденного</p>
-  </div>
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative z-10 text-white text-center px-4 fade-up">
+        <h3 class="text-3xl md:text-4xl font-bold mb-2">Каждая история — это опыт</h3>
+        <p class="text-lg">Мы помогаем людям обрести уверенность после непредвиденного</p>
+    </div>
 </section>
 
-<!-- Скрипты -->
-<script>
-  // Fade-up при прокрутке
-  const fadeElements = document.querySelectorAll('.fade-up');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('animate-fade-up');
-    });
-  }, { threshold: 0.1 });
-  fadeElements.forEach(el => observer.observe(el));
+<!-- Блок для расчёта страховки -->
+<section class="bg-white py-16 fade-up" id="insurance-calc">
+    <div class="container mx-auto px-4 max-w-2xl">
+        <h2 class="text-3xl font-bold text-primary text-center mb-6">Рассчитайте страховку</h2>
 
-  // Кнопка "нажатия" (если есть в форме или добавишь)
-  document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('button, a.button');
-    buttons.forEach(btn => {
-      btn.classList.add('transition', 'active:scale-95', 'duration-150', 'ease-in-out');
-    });
-  });
+        <form
+                class="space-y-4 bg-gray-50 p-6 rounded-xl shadow"
+                hx-post="{% url 'calculate_insurance' %}"
+                hx-swap="innerHTML"
+                hx-target="#calc-result"
+                id="calc-form">
+
+            {% csrf_token %}
+
+            <div>
+                <label class="block mb-1 text-sm font-medium">Тип страховки</label>
+                <select class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary"
+                        name="type">
+                    <option value="life">Жизнь</option>
+                    <option value="auto">Авто</option>
+                    <option value="property">Имущество</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block mb-1 text-sm font-medium">Сумма покрытия (₽)</label>
+                <input class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary" name="amount"
+                       required type="number">
+            </div>
+
+            <div>
+                <label class="block mb-1 text-sm font-medium">Возраст</label>
+                <input class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary" name="age"
+                       required type="number">
+            </div>
+
+            <button class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+                    type="submit">
+                Рассчитать
+            </button>
+        </form>
+
+        <div class="mt-6" id="calc-result"></div>
+    </div>
+</section>
+
+<!-- Кнопка вызова чата -->
+<button onclick="toggleChat()"
+        class="fixed bottom-6 right-6 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg z-50">
+  🤖 Чат-помощник
+</button>
+
+<!-- Окно чата -->
+<div id="chatbox" class="fixed bottom-20 right-6 w-80 bg-white rounded-xl shadow-xl p-4 hidden z-50">
+  <div class="text-sm text-gray-700 mb-2">Напишите вопрос, и бот постарается помочь</div>
+  <div id="chat-messages" class="h-48 overflow-y-auto text-sm mb-2 border p-2 rounded"></div>
+  <input id="user-input" type="text" placeholder="Ваш вопрос..."
+         class="w-full border rounded px-2 py-1 text-sm"
+         onkeydown="if(event.key === 'Enter') sendMessage()">
+</div>
+
+<script>
+  function toggleChat() {
+    const chat = document.getElementById("chatbox");
+    chat.classList.toggle("hidden");
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById("user-input");
+    const chat = document.getElementById("chat-messages");
+    const text = input.value.trim();
+    if (!text) return;
+
+    chat.innerHTML += `<div><b>Вы:</b> ${text}</div>`;
+    input.value = "";
+
+    try {
+      const response = await fetch("/api/ai-chat/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: text })
+      });
+
+      const data = await response.json();
+      console.log("Ответ от сервера:", data);
+
+      let botAnswer = "";
+
+      if (typeof data.answer === "string") {
+        botAnswer = data.answer;
+      } else if (data.error) {
+        // обработка ошибок
+        if (typeof data.error === "string") {
+          botAnswer = "Ошибка: " + data.error;
+        } else if (typeof data.error === "object" && data.error.message) {
+          botAnswer = "Ошибка: " + data.error.message;
+        } else {
+          botAnswer = "Ошибка: " + JSON.stringify(data.error);
+        }
+      } else {
+        botAnswer = "Нет ответа";
+      }
+
+      chat.innerHTML += `<div><b>Бот:</b> ${botAnswer}</div>`;
+      chat.scrollTop = chat.scrollHeight;
+
+    } catch (error) {
+      chat.innerHTML += `<div><b>Ошибка:</b> Не удалось получить ответ.</div>`;
+    }
+  }
 </script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 20,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+            bulletClass: 'swiper-pagination-bullet',
+            bulletActiveClass: 'swiper-pagination-bullet-active'
+        },
+        breakpoints: {
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 }
+        }
+    });
+</script>
 
 
 {% endblock %}

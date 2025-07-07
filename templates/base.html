@@ -6,17 +6,18 @@
     <title>Insurance UI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/htmx.org@1.9.2"></script>
-    <script>
-        tailwind.config = {
-          theme: {
-            extend: {
-              colors: {
-                primary: '#1e40af',
-              }
-            }
-          }
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <style>
+        @keyframes fade-up {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
         }
-    </script>
+        .animate-fade-up {
+          animation: fade-up 0.8s ease-out forwards;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
 <header class="bg-white shadow py-4">
@@ -45,7 +46,9 @@
 </header>
 
 <main class="flex-grow">
-    {% block content %}{% endblock %}
+    {% block content %}
+
+    {% endblock %}
 </main>
 
 <footer class="bg-gray-100 py-4 mt-10 border-t">
@@ -53,5 +56,53 @@
         &copy; 2025 Insurance Co. Все права защищены.
     </div>
 </footer>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper', {
+      slidesPerView: 1.2,
+      spaceBetween: 20,
+      centeredSlides: true,
+      loop: true,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+      breakpoints: {
+        640: { slidesPerView: 1.5 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 },
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-up');
+            observer.unobserve(entry.target); // Чтобы анимация срабатывала только 1 раз
+          }
+        });
+      }, {
+        threshold: 0.1 // Срабатывает, когда хотя бы 10% элемента видно
+      });
+
+      document.querySelectorAll('.fade-up').forEach(el => {
+        observer.observe(el);
+      });
+    });
+</script>
+
 </body>
 </html>
