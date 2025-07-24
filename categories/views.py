@@ -18,6 +18,10 @@ from rest_framework import status
 from openai import OpenAI
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json, requests
+from django.views.generic import ListView, CreateView, DetailView
 
 
 class MainCategoryViewSet(viewsets.ModelViewSet):
@@ -36,6 +40,23 @@ def category_ui(request):
         'categories': MainCategory.objects.prefetch_related('subcategories'),
         'stories': stories
     })
+
+
+class CategoryDetail(DetailView):
+    model = SubCategory
+    template_name = "categories/partials/category_detail.html"
+    context_object_name = "category"
+
+    def get_queryset(self):
+        self.category = SubCategory.objects.get(slug=self.kwargs['slug'])
+        self.object_list = self.category.main_categories.all()
+        return self.object_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = self.category
+        return context
+
 
 
 @require_POST
@@ -84,38 +105,42 @@ def calculate_insurance(request):
         return JsonResponse({'error': str(e)}, status=400)
 
 
-from rest_framework.authentication import SessionAuthentication
+@csrf_exempt
+def chat_with_llm(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            user_prompt = data.get('question', '')
+        except Exception as e:
+            return JsonResponse({"error": f"Ошибка парсинга JSON: {str(e)}"}, status=400)
 
-class CsrfExemptSessionAuthentication(SessionAuthentication):
-    def enforce_csrf(self, request):
-        return  # просто пропускаем проверку
-
-
-class ChatBotView(APIView):
-    authentication_classes = (CsrfExemptSessionAuthentication,)
-    def post(self, request):
-        question = request.data.get("question")
-
-        if not question:
-            return Response({"error": "Вопрос не передан."}, status=status.HTTP_400_BAD_REQUEST)
-
-        client = OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key=os.getenv("OPENROUTER_API_KEY")
+        # Формируем системный prompt, добавляя контекст:
+        system_prompt = (
+            "Ты — страховой консультант, который вежливо и кратко отвечает на вопросы клиентов. "
+            "Отвечай по теме страхования в Германии.\n\n"
+            "Клиент спрашивает: "
         )
+        full_prompt = system_prompt + user_prompt
+
+        payload = {
+            "prompt": full_prompt,
+            "n_predict": 128,
+            "temperature": 0.4,  # можно уменьшить для более точных ответов
+            "stop": ["</s>"]
+        }
 
         try:
-            completion = client.chat.completions.create(
-                model="openai/gpt-4.1",
-                messages=[{
-                    "role": "user",
-                    "content": [{"type": "text", "text": question}]
-                }],
-                max_tokens = 1000
-            )
+            url = "http://localhost:8001/completion"
+            response = requests.post(url, json=payload, timeout=30)
 
-            reply = completion.choices[0].message.content
-            return Response({"answer": reply})
+            try:
+                json_data = response.json()
+            except Exception as parse_error:
+                return JsonResponse({"error": f"LLM не вернул JSON: {parse_error}", "raw": response.text}, status=500)
+
+            return JsonResponse({"answer": json_data.get("content", "Нет ответа")})
 
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return JsonResponse({"error": f"Ошибка при запросе к LLM: {str(e)}"}, status=500)
+
+    return JsonResponse({"error": "Invalid method"}, status=405)

@@ -21,7 +21,10 @@
                 <h3 class="text-xl font-semibold text-primary mb-2">{{ cat.name }}</h3>
                 <ul class="list-disc ml-5 text-gray-700 space-y-1">
                     {% for sub in cat.subcategories.all %}
-                    <li>{{ sub.name }}</li>
+                    <il>
+                        <a href="{% url 'category_detail' sub.slug %}">{{ sub.name }}</a>
+                    </il>
+
                     {% endfor %}
                 </ul>
             </div>
@@ -147,7 +150,7 @@
 </section>
 
 <!-- Кнопка вызова чата -->
-<button onclick="toggleChat()"
+<button id="toggle-chat-btn"
         class="fixed bottom-6 right-6 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg z-50">
   🤖 Чат-помощник
 </button>
@@ -157,60 +160,88 @@
   <div class="text-sm text-gray-700 mb-2">Напишите вопрос, и бот постарается помочь</div>
   <div id="chat-messages" class="h-48 overflow-y-auto text-sm mb-2 border p-2 rounded"></div>
   <input id="user-input" type="text" placeholder="Ваш вопрос..."
-         class="w-full border rounded px-2 py-1 text-sm"
-         onkeydown="if(event.key === 'Enter') sendMessage()">
+         class="w-full border rounded px-2 py-1 text-sm" />
 </div>
 
 <script>
-  function toggleChat() {
-    const chat = document.getElementById("chatbox");
-    chat.classList.toggle("hidden");
-  }
+  const toggleBtn = document.getElementById('toggle-chat-btn');
+  const chatbox = document.getElementById('chatbox');
+  const chatMessages = document.getElementById('chat-messages');
+  const userInput = document.getElementById('user-input');
+
+  toggleBtn.addEventListener('click', () => {
+    chatbox.classList.toggle('hidden');
+    userInput.focus();
+  });
+
+  userInput.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      sendMessage();
+    }
+  });
 
   async function sendMessage() {
-    const input = document.getElementById("user-input");
-    const chat = document.getElementById("chat-messages");
-    const text = input.value.trim();
+    const text = userInput.value.trim();
     if (!text) return;
 
-    chat.innerHTML += `<div><b>Вы:</b> ${text}</div>`;
-    input.value = "";
+    appendMessage('Вы', text);
+    userInput.value = '';
+    scrollChatToBottom();
 
     try {
-      const response = await fetch("/api/ai-chat/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: text })
+      const response = await fetch("/api/chat/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: text })
       });
 
-      const data = await response.json();
-      console.log("Ответ от сервера:", data);
-
-      let botAnswer = "";
-
-      if (typeof data.answer === "string") {
-        botAnswer = data.answer;
-      } else if (data.error) {
-        // обработка ошибок
-        if (typeof data.error === "string") {
-          botAnswer = "Ошибка: " + data.error;
-        } else if (typeof data.error === "object" && data.error.message) {
-          botAnswer = "Ошибка: " + data.error.message;
-        } else {
-          botAnswer = "Ошибка: " + JSON.stringify(data.error);
-        }
-      } else {
-        botAnswer = "Нет ответа";
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      chat.innerHTML += `<div><b>Бот:</b> ${botAnswer}</div>`;
-      chat.scrollTop = chat.scrollHeight;
+      const data = await response.json();
+
+      let botAnswer = 'Нет ответа';
+      if (typeof data.answer === 'string') {
+        botAnswer = data.answer;
+      } else if (data.error) {
+        if (typeof data.error === 'string') {
+          botAnswer = `Ошибка: ${data.error}`;
+        } else if (typeof data.error === 'object' && data.error.message) {
+          botAnswer = `Ошибка: ${data.error.message}`;
+        } else {
+          botAnswer = `Ошибка: ${JSON.stringify(data.error)}`;
+        }
+      }
+
+      appendMessage('Бот', botAnswer);
+      scrollChatToBottom();
 
     } catch (error) {
-      chat.innerHTML += `<div><b>Ошибка:</b> Не удалось получить ответ.</div>`;
+      appendMessage('Ошибка', 'Не удалось получить ответ.');
+      scrollChatToBottom();
+      console.error('Ошибка при запросе к серверу:', error);
     }
   }
+
+  function appendMessage(who, text) {
+    const msgDiv = document.createElement('div');
+    msgDiv.innerHTML = `<b>${who}:</b> ${escapeHtml(text)}`;
+    chatMessages.appendChild(msgDiv);
+  }
+
+  function scrollChatToBottom() {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Простая функция для экранирования HTML, чтобы избежать XSS
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
 </script>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>

@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: django-app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - llm
+    environment:
+      - MODEL_API_URL=http://llm:8000
+      - DJANGO_SETTINGS_MODULE=myproject.settings
+      - OPENROUTER_API_KEY=your_api_key_here
+    env_file:
+      - .env
+
+  llm:
+    image: ghcr.io/ggerganov/llama.cpp:full
+    container_name: llm
+    command: >
+          --server
+          --model /models/mistral-7b-instruct-v0.1.Q4_K_M.gguf
+          --host 0.0.0.0
+          --port 8000
+    volumes:
+      - ./models/mistral:/models
+    ports:
+      - "8001:8000"  # доступ снаружи по 8001

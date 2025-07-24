@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from phonenumber_field.modelfields import PhoneNumberField
 
+
 class MainCategory(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, blank=True)
