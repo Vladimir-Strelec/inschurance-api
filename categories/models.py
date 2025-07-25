@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from phonenumber_field.modelfields import PhoneNumberField
+from rest_framework.reverse import reverse
 
 
 class MainCategory(models.Model):
@@ -12,12 +13,17 @@ class MainCategory(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('main_category_list', args=[self.slug])
+
     def __str__(self):
         return self.name
 
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    private = models.BooleanField(default=False)
     slug = models.SlugField(unique=True, blank=True)
     main_categories = models.ManyToManyField(MainCategory, related_name="subcategories")
 
@@ -25,6 +31,9 @@ class SubCategory(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('sub_category_list', args=[self.slug])
 
     def __str__(self):
         return self.name

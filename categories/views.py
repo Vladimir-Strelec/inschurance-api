@@ -2,6 +2,7 @@ import requests
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.views.decorators.http import require_POST
@@ -45,16 +46,15 @@ def category_ui(request):
 class CategoryDetail(DetailView):
     model = SubCategory
     template_name = "categories/partials/category_detail.html"
-    context_object_name = "category"
+    context_object_name = "sub_category"
 
-    def get_queryset(self):
-        self.category = SubCategory.objects.get(slug=self.kwargs['slug'])
-        self.object_list = self.category.main_categories.all()
-        return self.object_list
+    def get_object(self):
+        self.sub_category = get_object_or_404(SubCategory, slug=self.kwargs['slug'])
+        return self.sub_category
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category'] = self.category
+        context['sub_category'], context['main_category'] = self.sub_category, self.sub_category.main_categories.all()
         return context
 
 
