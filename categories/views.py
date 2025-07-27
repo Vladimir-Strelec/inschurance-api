@@ -69,6 +69,9 @@ def create_main_category(request):
 
 
 class ContactMessageView(APIView):
+    def get(self, request):
+        return render(request, "categories/contact_form.html")
+
     def post(self, request):
         serializer = ContactMessageSerializer(data=request.data)
         if serializer.is_valid():

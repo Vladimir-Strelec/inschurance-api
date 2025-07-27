@@ -1,36 +1,83 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- Hero с параллаксом -->
-<section class="relative h-[70vh] flex items-center justify-center bg-fixed bg-center bg-cover"
+<style>
+  /* общий стиль animated-section */
+  .animated-section {
+    opacity: 0;
+    transform: translate(0, 20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    visibility: hidden;
+  }
+  .animated-section.visible {
+    opacity: 1;
+    transform: translate(0, 0);
+    visibility: visible;
+  }
+  .from-left {
+    transform: translateX(-40px);
+  }
+  .from-right {
+    transform: translateX(40px);
+  }
+  .from-bottom {
+    transform: translateY(40px);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animated-section').forEach(el => observer.observe(el));
+  });
+</script>
+
+<!-- Hero -->
+<section class="relative h-[90vh] flex items-center justify-center bg-fixed bg-center bg-cover"
          style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62');">
-    <div class="absolute inset-0 bg-black/40"></div>
-    <div class="relative z-10 text-white text-center px-4 fade-up">
-        <h2 class="text-4xl md:text-5xl font-bold mb-4">Надежные страховые решения</h2>
-        <p class="text-lg md:text-xl">Защитите ваше будущее с уверенностью уже сегодня</p>
-    </div>
+  <div class="absolute inset-0 bg-black/40"></div>
+  <div class="relative z-10 text-white text-center px-4 animated-section from-bottom">
+    <h2 class="text-4xl md:text-5xl font-bold mb-4">Надежные страховые решения</h2>
+    <p class="text-lg md:text-xl">Защитите ваше будущее с уверенностью уже сегодня</p>
+  </div>
 </section>
 
 <!-- Категории -->
 <section class="bg-white py-16" id="categories">
-    <div class="container mx-auto px-4 fade-up">
-        <h2 class="text-3xl font-bold text-primary text-center mb-10">Наши категории</h2>
-        <div class="grid md:grid-cols-2 gap-8">
-            {% for cat in categories %}
-            <div class="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 fade-up">
-                <h3 class="text-xl font-semibold text-primary mb-2">{{ cat.name }}</h3>
-                <ul class="list-disc ml-5 text-gray-700 space-y-1">
-                    {% for sub in cat.subcategories.all %}
-                    <il>
-                        <a href="{% url 'category_detail' sub.slug %}">{{ sub.name }}</a>
-                    </il>
-
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endfor %}
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-primary text-center mb-10 animated-section from-bottom">Наши категории</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for cat in categories %}
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 overflow-hidden animated-section {% cycle 'from-left' 'from-right' 'from-bottom' %}">
+        {% if cat.image_url %}
+        <div class="w-full h-40 bg-gray-50 flex items-center justify-center p-4">
+          <img alt="{{ cat.name }}" class="max-h-28 max-w-full object-contain" src="{{ cat.image_url }}"/>
         </div>
+        {% endif %}
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-primary mb-4">{{ cat.name }}</h3>
+          <ul class="space-y-2">
+            {% for sub in cat.subcategories.all %}
+            <li class="transition duration-300 hover:translate-x-1">
+              <a class="text-gray-700 hover:text-primary font-medium" href="{% url 'category_detail' sub.slug %}">
+                • {{ sub.name }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 </section>
 
 <!-- О нас -->
@@ -53,12 +100,12 @@
 
 <!-- Контакты -->
 <section class="bg-white py-16" id="contact">
-    <div class="container mx-auto px-4 max-w-xl fade-up">
-        <h2 class="text-3xl font-bold text-primary text-center mb-6">Связаться с нами</h2>
-        <div id="contact-form">
-            {% include 'categories/contact_form.html' %}
-        </div>
+  <div class="container mx-auto px-4 max-w-xl">
+    <h2 class="text-3xl font-bold text-primary text-center mb-6 animated-section from-bottom">Связаться с нами</h2>
+    <div id="contact-form" class="animated-section from-bottom">
+      {% include 'categories/contact_form.html' %}
     </div>
+  </div>
 </section>
 
 <!-- Карусель -->
@@ -69,7 +116,7 @@
         <h3 class="text-2xl font-bold text-center text-primary mb-8">Реальные истории страхования</h3>
 
         <!-- Обертка с Swiper -->
-        <div class="swiper w-full px-6 max-w-6xl mx-auto">
+        <div class="swiper w-full px-16 max-w-16xl mx-auto">
             <div class="swiper-wrapper">
                 {% for story in stories %}
                 <div class="swiper-slide bg-white shadow-md rounded-xl p-6 sm:w-[400px] w-[85vw] transition hover:shadow-xl hover:-translate-y-1">
@@ -77,8 +124,8 @@
                     <p class="text-gray-700 text-sm">{{ story.content|truncatechars:150 }}</p>
                     <a class="text-blue-600 hover:text-blue-800 font-medium mt-2 inline-block transition" href="#">Читать</a>
                 </div>
-                {% empty %}
-                <div class="swiper-slide text-gray-500 text-center">Нет историй для отображения.</div>
+
+
                 {% endfor %}
             </div>
 
@@ -149,128 +196,51 @@
     </div>
 </section>
 
-<!-- Кнопка вызова чата -->
-<button id="toggle-chat-btn"
-        class="fixed bottom-6 right-6 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg z-50">
-  🤖 Чат-помощник
-</button>
 
-<!-- Окно чата -->
-<div id="chatbox" class="fixed bottom-20 right-6 w-80 bg-white rounded-xl shadow-xl p-4 hidden z-50">
-  <div class="text-sm text-gray-700 mb-2">Напишите вопрос, и бот постарается помочь</div>
-  <div id="chat-messages" class="h-48 overflow-y-auto text-sm mb-2 border p-2 rounded"></div>
-  <input id="user-input" type="text" placeholder="Ваш вопрос..."
-         class="w-full border rounded px-2 py-1 text-sm" />
-</div>
-
-<script>
-  const toggleBtn = document.getElementById('toggle-chat-btn');
-  const chatbox = document.getElementById('chatbox');
-  const chatMessages = document.getElementById('chat-messages');
-  const userInput = document.getElementById('user-input');
-
-  toggleBtn.addEventListener('click', () => {
-    chatbox.classList.toggle('hidden');
-    userInput.focus();
-  });
-
-  userInput.addEventListener('keydown', event => {
-    if (event.key === 'Enter') {
-      sendMessage();
-    }
-  });
-
-  async function sendMessage() {
-    const text = userInput.value.trim();
-    if (!text) return;
-
-    appendMessage('Вы', text);
-    userInput.value = '';
-    scrollChatToBottom();
-
-    try {
-      const response = await fetch("/api/chat/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question: text })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      let botAnswer = 'Нет ответа';
-      if (typeof data.answer === 'string') {
-        botAnswer = data.answer;
-      } else if (data.error) {
-        if (typeof data.error === 'string') {
-          botAnswer = `Ошибка: ${data.error}`;
-        } else if (typeof data.error === 'object' && data.error.message) {
-          botAnswer = `Ошибка: ${data.error.message}`;
-        } else {
-          botAnswer = `Ошибка: ${JSON.stringify(data.error)}`;
-        }
-      }
-
-      appendMessage('Бот', botAnswer);
-      scrollChatToBottom();
-
-    } catch (error) {
-      appendMessage('Ошибка', 'Не удалось получить ответ.');
-      scrollChatToBottom();
-      console.error('Ошибка при запросе к серверу:', error);
-    }
-  }
-
-  function appendMessage(who, text) {
-    const msgDiv = document.createElement('div');
-    msgDiv.innerHTML = `<b>${who}:</b> ${escapeHtml(text)}`;
-    chatMessages.appendChild(msgDiv);
-  }
-
-  function scrollChatToBottom() {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  // Простая функция для экранирования HTML, чтобы избежать XSS
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
-</script>
+<!-- Преимущества -->
+<section class="bg-white py-16">
+  <div class="container mx-auto px-4 text-center">
+    <h3 class="text-3xl font-bold text-primary mb-12 animated-section from-bottom">
+      Почему выбирают нас
+    </h3>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-left">
+        <!-- Иконка SVG -->
+        <svg class="mx-auto mb-4 w-12 h-12 fill-current text-primary" aria-hidden="true">
+          <use href="#icon-shield-check"></use>
+        </svg>
+        <h4 class="text-xl font-semibold mb-2">Надёжность</h4>
+        <p class="text-gray-600">Гарантии перед клиентами.</p>
+      </a>
+      <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-bottom delay-200">
+        <svg class="mx-auto mb-4 w-12 h-12 fill-current text-primary" aria-hidden="true">
+          <use href="#icon-clock"></use>
+        </svg>
+        <h4 class="text-xl font-semibold mb-2">Быстрое оформление</h4>
+        <p class="text-gray-600">Минимум документов.</p>
+      </a>
+      <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-right delay-400">
+        <svg class="mx-auto mb-4 w-12 h-12 fill-current text-primary" aria-hidden="true">
+          <use href="#icon-headphones"></use>
+        </svg>
+        <h4 class="text-xl font-semibold mb-2">Поддержка 24/7</h4>
+        <p class="text-gray-600">Поддержка по всем вопросам.</p>
+      </a>
+    </div>
+  </div>
+</section>
 
 
-
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<script>
-    const swiper = new Swiper('.swiper', {
-        loop: true,
-        slidesPerView: 1,
-        spaceBetween: 20,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-            bulletClass: 'swiper-pagination-bullet',
-            bulletActiveClass: 'swiper-pagination-bullet-active'
-        },
-        breakpoints: {
-            640: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 }
-        }
-    });
-</script>
-
+<svg style="display:none;">
+  <symbol id="icon-shield-check" viewBox="0 0 24 24">
+    <path d="M12 2l7 4v6c0 5.25-3.25 9.25-7 10-3.75-.75-7-4.75-7-10V6l7-4zM10 14l-2-2 1.4-1.4L10 11.2l4.6-4.6L16 8l-6 6z"/>
+  </symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24">
+    <path d="M12 1a11 11 0 1 0 11 11A11.012 11.012 0 0 0 12 1zm0 20a9 9 0 1 1 9-9a9.01 9.01 0 0 1-9 9zm.5-13h-1v6l5.25 3.15l.5-.85l-4.75-2.8z"/>
+  </symbol>
+  <symbol id="icon-headphones" viewBox="0 0 24 24">
+    <path d="M12 1C6.48 1 2 5.48 2 11v9a2 2 0 0 0 2 2h3v-8H4v-3a8 8 0 0 1 16 0v3h-3v8h3a2 2 0 0 0 2-2v-9c0-5.52-4.48-10-10-10z"/>
+  </symbol>
+</svg>
 
 {% endblock %}

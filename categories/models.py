@@ -6,6 +6,7 @@ from rest_framework.reverse import reverse
 
 class MainCategory(models.Model):
     name = models.CharField(max_length=100)
+    image_url = models.URLField(max_length=500, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -23,6 +24,7 @@ class MainCategory(models.Model):
 class SubCategory(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    image_url = models.URLField(max_length=500, blank=True, null=True)
     private = models.BooleanField(default=False)
     slug = models.SlugField(unique=True, blank=True)
     main_categories = models.ManyToManyField(MainCategory, related_name="subcategories")

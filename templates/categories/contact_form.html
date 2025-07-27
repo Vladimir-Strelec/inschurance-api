@@ -1,23 +1,17 @@
 <form
-        class="space-y-4"
-        hx-post="{% url 'contact_api' %}"
-        hx-swap="outerHTML"
-        hx-target="#contact-form"
-        method="POST"
+  class="p-4 space-y-4"
+  hx-post="{% url 'contact_api' %}"
+  hx-target="#contact-drawer"
+  hx-swap="outerHTML"
+  method="POST"
 >
-    {% csrf_token %}
-    <input class="w-full border border-gray-300 rounded px-4 py-2" name="email" placeholder="Email" required
-           type="email">
-    <input class="w-full border border-gray-300 rounded px-4 py-2" name="phone" placeholder="+49 151 12345678"
-           required type="tel">
-    {% if errors.phone %}
-    <p class="text-red-500 text-sm mt-1">{{ errors.phone.0 }}</p>
-    {% endif %}
-    <textarea class="w-full border border-gray-300 rounded px-4 py-2" name="message" placeholder="Сообщение"
-              rows="4"></textarea>
-
-    <button class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-            type="submit">
-        Отправить
-    </button>
+  {% csrf_token %}
+  <input name="email" type="email" placeholder="Email"
+         class="w-full border p-2 rounded" required>
+  <input name="phone" type="tel" placeholder="Телефон"
+         class="w-full border p-2 rounded" required>
+  <textarea name="message" rows="4" placeholder="Сообщение"
+            class="w-full border p-2 rounded"></textarea>
+  <button type="submit"
+          class="bg-blue-950 text-white px-4 py-2 rounded hover:bg-blue-950">Отправить</button>
 </form>
