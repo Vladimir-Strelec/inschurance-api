@@ -1,17 +1,21 @@
-<form
-  class="p-4 space-y-4"
-  hx-post="{% url 'contact_api' %}"
-  hx-target="#contact-drawer"
-  hx-swap="outerHTML"
-  method="POST"
->
-  {% csrf_token %}
-  <input name="email" type="email" placeholder="Email"
-         class="w-full border p-2 rounded" required>
-  <input name="phone" type="tel" placeholder="Телефон"
-         class="w-full border p-2 rounded" required>
-  <textarea name="message" rows="4" placeholder="Сообщение"
-            class="w-full border p-2 rounded"></textarea>
-  <button type="submit"
-          class="bg-blue-950 text-white px-4 py-2 rounded hover:bg-blue-950">Отправить</button>
-</form>
+<div id="contact-drawer">
+  <form
+    class="p-4 space-y-4"
+    hx-post="{% url 'contact_api' %}"
+    hx-target="#contact-drawer"
+    hx-swap="outerHTML transition:true"
+    method="POST"
+  >
+    {% csrf_token %}
+    <input name="email" type="email" placeholder="Email"
+           class="w-full border p-2 rounded" required>
+    <input name="phone" type="tel" placeholder="Телефон"
+           class="w-full border p-2 rounded" required>
+    <textarea name="message" rows="4" placeholder="Сообщение"
+              class="w-full border p-2 rounded"></textarea>
+    <button type="submit"
+            class="bg-blue-950 text-white px-4 py-2 rounded hover:bg-blue-950">
+      Отправить
+    </button>
+  </form>
+</div>

@@ -58,7 +58,6 @@ class CategoryDetail(DetailView):
         return context
 
 
-
 @require_POST
 def create_main_category(request):
     name = request.POST.get("name")

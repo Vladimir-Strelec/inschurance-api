@@ -2,82 +2,84 @@
 {% block content %}
 
 <style>
-  /* общий стиль animated-section */
-  .animated-section {
-    opacity: 0;
-    transform: translate(0, 20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    visibility: hidden;
-  }
-  .animated-section.visible {
-    opacity: 1;
-    transform: translate(0, 0);
-    visibility: visible;
-  }
-  .from-left {
-    transform: translateX(-40px);
-  }
-  .from-right {
-    transform: translateX(40px);
-  }
-  .from-bottom {
-    transform: translateY(40px);
-  }
+    /* общий стиль animated-section */
+    .animated-section {
+      opacity: 0;
+      transform: translate(0, 20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      visibility: hidden;
+    }
+    .animated-section.visible {
+      opacity: 1;
+      transform: translate(0, 0);
+      visibility: visible;
+    }
+    .from-left {
+      transform: translateX(-40px);
+    }
+    .from-right {
+      transform: translateX(40px);
+    }
+    .from-bottom {
+      transform: translateY(40px);
+    }
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    document.addEventListener("DOMContentLoaded", () => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
 
-    document.querySelectorAll('.animated-section').forEach(el => observer.observe(el));
-  });
+      document.querySelectorAll('.animated-section').forEach(el => observer.observe(el));
+    });
 </script>
 
 <!-- Hero -->
 <section class="relative h-[90vh] flex items-center justify-center bg-fixed bg-center bg-cover"
          style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62');">
-  <div class="absolute inset-0 bg-black/40"></div>
-  <div class="relative z-10 text-white text-center px-4 animated-section from-bottom">
-    <h2 class="text-4xl md:text-5xl font-bold mb-4">Надежные страховые решения</h2>
-    <p class="text-lg md:text-xl">Защитите ваше будущее с уверенностью уже сегодня</p>
-  </div>
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative z-10 text-white text-center px-4 animated-section from-bottom">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Надежные страховые решения</h2>
+        <p class="text-lg md:text-xl">Защитите ваше будущее с уверенностью уже сегодня</p>
+    </div>
+
 </section>
 
 <!-- Категории -->
 <section class="bg-white py-16" id="categories">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-primary text-center mb-10 animated-section from-bottom">Наши категории</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {% for cat in categories %}
-      <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 overflow-hidden animated-section {% cycle 'from-left' 'from-right' 'from-bottom' %}">
-        {% if cat.image_url %}
-        <div class="w-full h-40 bg-gray-50 flex items-center justify-center p-4">
-          <img alt="{{ cat.name }}" class="max-h-28 max-w-full object-contain" src="{{ cat.image_url }}"/>
-        </div>
-        {% endif %}
-        <div class="p-6">
-          <h3 class="text-xl font-semibold text-primary mb-4">{{ cat.name }}</h3>
-          <ul class="space-y-2">
-            {% for sub in cat.subcategories.all %}
-            <li class="transition duration-300 hover:translate-x-1">
-              <a class="text-gray-700 hover:text-primary font-medium" href="{% url 'category_detail' sub.slug %}">
-                • {{ sub.name }}
-              </a>
-            </li>
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-primary text-center mb-10 animated-section from-bottom">Наши категории</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for cat in categories %}
+            <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 overflow-hidden animated-section {% cycle 'from-left' 'from-right' 'from-bottom' %}">
+                {% if cat.image_url %}
+                <div class="w-full h-40 bg-gray-50 flex items-center justify-center p-4">
+                    <img alt="{{ cat.name }}" class="max-h-28 max-w-full object-contain" src="{{ cat.image_url }}"/>
+                </div>
+                {% endif %}
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-primary mb-4">{{ cat.name }}</h3>
+                    <ul class="space-y-2">
+                        {% for sub in cat.subcategories.all %}
+                        <li class="transition duration-300 hover:translate-x-1">
+                            <a class="text-gray-700 hover:text-blue-500 font-medium"
+                               href="{% url 'category_detail' sub.slug %}">
+                                • {{ sub.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
             {% endfor %}
-          </ul>
         </div>
-      </div>
-      {% endfor %}
     </div>
-  </div>
 </section>
 
 <!-- О нас -->
@@ -100,12 +102,12 @@
 
 <!-- Контакты -->
 <section class="bg-white py-16" id="contact">
-  <div class="container mx-auto px-4 max-w-xl">
-    <h2 class="text-3xl font-bold text-primary text-center mb-6 animated-section from-bottom">Связаться с нами</h2>
-    <div id="contact-form" class="animated-section from-bottom">
-      {% include 'categories/contact_form.html' %}
+    <div class="container mx-auto px-4 max-w-xl">
+        <h2 class="text-3xl font-bold text-primary text-center mb-6 animated-section from-bottom">Связаться с нами</h2>
+        <div class="animated-section from-bottom" id="contact-form">
+            {% include 'categories/contact_form.html' %}
+        </div>
     </div>
-  </div>
 </section>
 
 <!-- Карусель -->
@@ -199,48 +201,48 @@
 
 <!-- Преимущества -->
 <section class="bg-white py-16">
-  <div class="container mx-auto px-4 text-center">
-    <h3 class="text-3xl font-bold text-primary mb-12 animated-section from-bottom">
-      Почему выбирают нас
-    </h3>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-left">
-        <!-- Иконка SVG -->
-        <svg class="mx-auto mb-4 w-12 h-12 fill-current text-primary" aria-hidden="true">
-          <use href="#icon-shield-check"></use>
-        </svg>
-        <h4 class="text-xl font-semibold mb-2">Надёжность</h4>
-        <p class="text-gray-600">Гарантии перед клиентами.</p>
-      </a>
-      <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-bottom delay-200">
-        <svg class="mx-auto mb-4 w-12 h-12 fill-current text-primary" aria-hidden="true">
-          <use href="#icon-clock"></use>
-        </svg>
-        <h4 class="text-xl font-semibold mb-2">Быстрое оформление</h4>
-        <p class="text-gray-600">Минимум документов.</p>
-      </a>
-      <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-right delay-400">
-        <svg class="mx-auto mb-4 w-12 h-12 fill-current text-primary" aria-hidden="true">
-          <use href="#icon-headphones"></use>
-        </svg>
-        <h4 class="text-xl font-semibold mb-2">Поддержка 24/7</h4>
-        <p class="text-gray-600">Поддержка по всем вопросам.</p>
-      </a>
+    <div class="container mx-auto px-4 text-center">
+        <h3 class="text-3xl font-bold text-primary mb-12 animated-section from-bottom">
+            Почему выбирают нас
+        </h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-left">
+                <!-- Иконка SVG -->
+                <svg aria-hidden="true" class="mx-auto mb-4 w-12 h-12 fill-current text-primary">
+                    <use href="#icon-shield-check"></use>
+                </svg>
+                <h4 class="text-xl font-semibold mb-2">Надёжность</h4>
+                <p class="text-gray-600">Гарантии перед клиентами.</p>
+            </a>
+            <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-bottom delay-200">
+                <svg aria-hidden="true" class="mx-auto mb-4 w-12 h-12 fill-current text-primary">
+                    <use href="#icon-clock"></use>
+                </svg>
+                <h4 class="text-xl font-semibold mb-2">Быстрое оформление</h4>
+                <p class="text-gray-600">Минимум документов.</p>
+            </a>
+            <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-right delay-400">
+                <svg aria-hidden="true" class="mx-auto mb-4 w-12 h-12 fill-current text-primary">
+                    <use href="#icon-headphones"></use>
+                </svg>
+                <h4 class="text-xl font-semibold mb-2">Поддержка 24/7</h4>
+                <p class="text-gray-600">Поддержка по всем вопросам.</p>
+            </a>
+        </div>
     </div>
-  </div>
 </section>
 
 
 <svg style="display:none;">
-  <symbol id="icon-shield-check" viewBox="0 0 24 24">
-    <path d="M12 2l7 4v6c0 5.25-3.25 9.25-7 10-3.75-.75-7-4.75-7-10V6l7-4zM10 14l-2-2 1.4-1.4L10 11.2l4.6-4.6L16 8l-6 6z"/>
-  </symbol>
-  <symbol id="icon-clock" viewBox="0 0 24 24">
-    <path d="M12 1a11 11 0 1 0 11 11A11.012 11.012 0 0 0 12 1zm0 20a9 9 0 1 1 9-9a9.01 9.01 0 0 1-9 9zm.5-13h-1v6l5.25 3.15l.5-.85l-4.75-2.8z"/>
-  </symbol>
-  <symbol id="icon-headphones" viewBox="0 0 24 24">
-    <path d="M12 1C6.48 1 2 5.48 2 11v9a2 2 0 0 0 2 2h3v-8H4v-3a8 8 0 0 1 16 0v3h-3v8h3a2 2 0 0 0 2-2v-9c0-5.52-4.48-10-10-10z"/>
-  </symbol>
+    <symbol id="icon-shield-check" viewBox="0 0 24 24">
+        <path d="M12 2l7 4v6c0 5.25-3.25 9.25-7 10-3.75-.75-7-4.75-7-10V6l7-4zM10 14l-2-2 1.4-1.4L10 11.2l4.6-4.6L16 8l-6 6z"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24">
+        <path d="M12 1a11 11 0 1 0 11 11A11.012 11.012 0 0 0 12 1zm0 20a9 9 0 1 1 9-9a9.01 9.01 0 0 1-9 9zm.5-13h-1v6l5.25 3.15l.5-.85l-4.75-2.8z"/>
+    </symbol>
+    <symbol id="icon-headphones" viewBox="0 0 24 24">
+        <path d="M12 1C6.48 1 2 5.48 2 11v9a2 2 0 0 0 2 2h3v-8H4v-3a8 8 0 0 1 16 0v3h-3v8h3a2 2 0 0 0 2-2v-9c0-5.52-4.48-10-10-10z"/>
+    </symbol>
 </svg>
 
 {% endblock %}
