@@ -23,6 +23,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json, requests
 from django.views.generic import ListView, CreateView, DetailView
+from django.core.cache import cache
+import uuid, hashlib
+
+from .utils import get_or_create_lead_key
 
 
 class MainCategoryViewSet(viewsets.ModelViewSet):
@@ -69,19 +73,53 @@ def create_main_category(request):
 
 class ContactMessageView(APIView):
     def get(self, request):
-        return render(request, "categories/contact_form.html")
+        # Рендер большой формы с тем же самым сессионным ключом
+        key = get_or_create_lead_key(request)
+        is_mini = request.GET.get("mini") == "1"
+        return render(request, "categories/contact_form.html", {"is_mini": is_mini, "uuid": key})
 
     def post(self, request):
-        serializer = ContactMessageSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            if request.headers.get("Hx-Request"):
-                return render(request, "categories/contact_success.html")
-            return Response(serializer.data)
-        if request.headers.get("Hx-Request"):
-            return render(request, "categories/contact_form.html", {"errors": serializer.errors})
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # Берем ключ из заголовка или поля. Если нет — подставим из сессии, чтобы не падать.
+        key = (
+            request.headers.get("Idempotency-Key")
+            or request.data.get("idempotency_key")
+            or request.session.get("lead_idemp")
+        )
+        if not key:
+            return Response({"detail": "Missing idempotency key"}, status=400)
 
+        # Блокируем дубли по ключу
+        if cache.get(f"idemp:{key}"):
+            # Для HTMX вернём тот же самый success, чтобы UI не мигал ошибками
+            is_htmx = request.headers.get("HX-Request") == "true" or request.headers.get("Hx-Request") == "true"
+            if is_htmx:
+                is_mini = (request.data.get("mini") == "1") or (request.POST.get("mini") == "1")
+                return render(request, "categories/contact_success.html", {"is_mini": is_mini}, status=200)
+            return Response({"detail": "Duplicate"}, status=409)
+
+        serializer = ContactMessageSerializer(data=request.data)
+        if not serializer.is_valid():
+            # Для HTMX возвращаем ту же частичку формы с ошибками
+            is_htmx = request.headers.get("HX-Request") == "true" or request.headers.get("Hx-Request") == "true"
+            is_mini = (request.data.get("mini") == "1") or (request.POST.get("mini") == "1")
+            if is_htmx:
+                return render(request, "categories/contact_form.html", {"errors": serializer.errors, "is_mini": is_mini, "uuid": key}, status=400)
+            return Response(serializer.errors, status=400)
+
+        obj = serializer.save()
+
+        # Фиксируем ключ на 5 минут
+        cache.set(f"idemp:{key}", True, timeout=300)
+
+        is_htmx = request.headers.get("HX-Request") == "true" or request.headers.get("Hx-Request") == "true"
+        is_mini = (request.data.get("mini") == "1") or (request.POST.get("mini") == "1")
+
+        if is_htmx:
+            # Мини и большая HTMX‑форма получат локальный success
+            return render(request, "categories/contact_success.html", {"is_mini": is_mini}, status=201)
+
+        # НЕ-HTMX большая форма: рендерим полноценную страницу успеха
+        return render(request, "categories/contact_success_page.html", {"id": obj.id}, status=201)
 
 @require_POST
 def calculate_insurance(request):
@@ -146,3 +184,13 @@ def chat_with_llm(request):
             return JsonResponse({"error": f"Ошибка при запросе к LLM: {str(e)}"}, status=500)
 
     return JsonResponse({"error": "Invalid method"}, status=405)
+
+
+def contact_form_partial(request):
+    # ВСЕГДА один и тот же ключ из сессии
+    key = get_or_create_lead_key(request)
+    return render(
+        request,
+        "categories/contact_form.html",   # та же частичка формы
+        {"is_mini": True, "uuid": key}
+    )

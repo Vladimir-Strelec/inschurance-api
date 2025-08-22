@@ -1,8 +1,13 @@
-<div class="p-6 bg-green-50 rounded-lg shadow-lg">
-  <h2 class="text-green-800 text-lg font-semibold mb-2 flex items-center">
-    <span class="mr-2">✅</span> Спасибо!
-  </h2>
-  <p class="text-green-700">
-    Ваше сообщение успешно отправлено. Мы свяжемся с вами в ближайшее время.
-  </p>
+<!-- categories/contact_success.html -->
+<div class="contact-drawer">
+  <div class="p-4 bg-green-50 rounded">
+    <h2 class="text-green-800 text-lg font-semibold mb-1">✅ Спасибо!</h2>
+    <p class="text-green-700 text-sm">Ваше сообщение успешно отправлено.</p>
+    {% if is_mini %}
+      <button class="mt-3 text-sm text-gray-600 underline"
+              onclick="document.getElementById('mini-form-container')?.classList.add('hidden')">
+        Закрыть
+      </button>
+    {% endif %}
+  </div>
 </div>
