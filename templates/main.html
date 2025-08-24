@@ -2,7 +2,7 @@
 {% block content %}
 
 <style>
-    /* общий стиль animated-section */
+    /* Allgemeiner Stil animated-section */
     .animated-section {
       opacity: 0;
       transform: translate(0, 20px);
@@ -45,16 +45,15 @@
          style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62');">
     <div class="absolute inset-0 bg-black/40"></div>
     <div class="relative z-10 text-white text-center px-4 animated-section from-bottom">
-        <h2 class="text-4xl md:text-5xl font-bold mb-4">Надежные страховые решения</h2>
-        <p class="text-lg md:text-xl">Защитите ваше будущее с уверенностью уже сегодня</p>
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Zuverlässige Versicherungslösungen</h2>
+        <p class="text-lg md:text-xl">Schützen Sie Ihre Zukunft mit Vertrauen – schon heute</p>
     </div>
-
 </section>
 
-<!-- Категории -->
+<!-- Kategorien -->
 <section class="bg-white py-16" id="categories">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-primary text-center mb-10 animated-section from-bottom">Наши категории</h2>
+        <h2 class="text-3xl font-bold text-primary text-center mb-10 animated-section from-bottom">Unsere Kategorien</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for cat in categories %}
             <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 overflow-hidden animated-section {% cycle 'from-left' 'from-right' 'from-bottom' %}">
@@ -82,28 +81,28 @@
     </div>
 </section>
 
-<!-- О нас -->
+<!-- Über uns -->
 <section class="bg-gray-100 py-16" id="about">
     <div class="container mx-auto px-4 max-w-4xl flex flex-col md:flex-row items-center gap-10 fade-up">
         <div class="md:w-1/2">
-            <h2 class="text-3xl font-bold text-primary mb-4">О нас</h2>
+            <h2 class="text-3xl font-bold text-primary mb-4">Über uns</h2>
             <p class="text-lg text-gray-700">
-                Мы — ведущая страховая компания, предоставляющая инновационные решения для защиты вашего будущего.
-                Надежность, опыт и индивидуальный подход — наши ключевые принципы. С нами вы в безопасности.
+                Wir sind ein führendes Versicherungsunternehmen, das innovative Lösungen zum Schutz Ihrer Zukunft anbietet.
+                Zuverlässigkeit, Erfahrung und ein individueller Ansatz sind unsere Schlüsselprinzipien. Mit uns sind Sie sicher.
             </p>
         </div>
         <div class="md:w-1/2">
-            <img alt="Наш сотрудник"
+            <img alt="Unser Mitarbeiter"
                  class="rounded-2xl shadow-xl w-full max-w-sm mx-auto"
                  src="https://images.unsplash.com/photo-1623852881187-a3790f3b29ae?q=80&w=2047&auto=format&fit=crop">
         </div>
     </div>
 </section>
 
-<!-- Контакты -->
+<!-- Kontakt -->
 <section class="bg-white py-16" id="contact">
     <div class="container mx-auto px-4 max-w-xl">
-        <h2 class="text-3xl font-bold text-primary text-center mb-6 animated-section from-bottom">Связаться с нами</h2>
+        <h2 class="text-3xl font-bold text-primary text-center mb-6 animated-section from-bottom">Kontaktieren Sie uns</h2>
 
         <div id="main-form-container">
             {% include "categories/contact_form.html" with is_mini=False %}
@@ -112,52 +111,49 @@
     </div>
 </section>
 
-<!-- Карусель -->
+<!-- Karussell -->
 <div class="overflow-x-auto scroll-smooth snap-x snap-mandatory px-4 -mx-4" id="carousel"
      style="will-change: transform;">
     <section class="bg-gray-50 py-12 fade-up">
 
-        <h3 class="text-2xl font-bold text-center text-primary mb-8">Реальные истории страхования</h3>
+        <h3 class="text-2xl font-bold text-center text-primary mb-8">Echte Versicherungs­geschichten</h3>
 
-        <!-- Обертка с Swiper -->
+        <!-- Swiper Wrapper -->
         <div class="swiper w-full px-16 max-w-16xl mx-auto">
             <div class="swiper-wrapper">
                 {% for story in stories %}
                 <div class="swiper-slide bg-white shadow-md rounded-xl p-6 sm:w-[400px] w-[85vw] transition hover:shadow-xl hover:-translate-y-1">
                     <h4 class="text-primary font-semibold text-lg mb-2">{{ story.title }}</h4>
                     <p class="text-gray-700 text-sm">{{ story.content|truncatechars:150 }}</p>
-                    <a class="text-blue-600 hover:text-blue-800 font-medium mt-2 inline-block transition" href="{{ story.url }}">Читать</a>
+                    <a class="text-blue-600 hover:text-blue-800 font-medium mt-2 inline-block transition" href="{{ story.url }}">Weiterlesen</a>
                 </div>
-
-
                 {% endfor %}
             </div>
 
-            <!-- Стрелки -->
+            <!-- Pfeile -->
             <div class="swiper-button-next text-primary"></div>
             <div class="swiper-button-prev text-primary"></div>
 
-            <!-- Точки -->
+            <!-- Punkte -->
             <div class="swiper-pagination mt-4"></div>
         </div>
-
-
     </section>
 </div>
-<!-- Второй параллакс -->
+
+<!-- Zweiter Parallax -->
 <section class="relative h-[50vh] flex items-center justify-center bg-fixed bg-center bg-cover"
          style="background-image: url('https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&q=80&w=2048');">
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="relative z-10 text-white text-center px-4 fade-up">
-        <h3 class="text-3xl md:text-4xl font-bold mb-2">Каждая история — это опыт</h3>
-        <p class="text-lg">Мы помогаем людям обрести уверенность после непредвиденного</p>
+        <h3 class="text-3xl md:text-4xl font-bold mb-2">Jede Geschichte ist eine Erfahrung</h3>
+        <p class="text-lg">Wir helfen Menschen, nach dem Unerwarteten wieder Vertrauen zu gewinnen</p>
     </div>
 </section>
 
-<!-- Блок для расчёта страховки -->
+<!-- Versicherungsrechner -->
 <section class="bg-white py-16 fade-up" id="insurance-calc">
     <div class="container mx-auto px-4 max-w-2xl">
-        <h2 class="text-3xl font-bold text-primary text-center mb-6">Рассчитайте страховку</h2>
+        <h2 class="text-3xl font-bold text-primary text-center mb-6">Versicherung berechnen</h2>
 
         <form
                 class="space-y-4 bg-gray-50 p-6 rounded-xl shadow"
@@ -169,30 +165,30 @@
             {% csrf_token %}
 
             <div>
-                <label class="block mb-1 text-sm font-medium">Тип страховки</label>
+                <label class="block mb-1 text-sm font-medium">Versicherungsart</label>
                 <select class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary"
                         name="type">
-                    <option value="life">Жизнь</option>
-                    <option value="auto">Авто</option>
-                    <option value="property">Имущество</option>
+                    <option value="life">Leben</option>
+                    <option value="auto">Auto</option>
+                    <option value="property">Eigentum</option>
                 </select>
             </div>
 
             <div>
-                <label class="block mb-1 text-sm font-medium">Сумма покрытия (₽)</label>
+                <label class="block mb-1 text-sm font-medium">Deckungssumme (€)</label>
                 <input class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary" name="amount"
                        required type="number">
             </div>
 
             <div>
-                <label class="block mb-1 text-sm font-medium">Возраст</label>
+                <label class="block mb-1 text-sm font-medium">Alter</label>
                 <input class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary" name="age"
                        required type="number">
             </div>
 
             <button class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
                     type="submit">
-                Рассчитать
+                Berechnen
             </button>
         </form>
 
@@ -200,40 +196,38 @@
     </div>
 </section>
 
-
-<!-- Преимущества -->
+<!-- Vorteile -->
 <section class="bg-white py-16">
     <div class="container mx-auto px-4 text-center">
         <h3 class="text-3xl font-bold text-primary mb-12 animated-section from-bottom">
-            Почему выбирают нас
+            Warum man uns wählt
         </h3>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-left">
-                <!-- Иконка SVG -->
+                <!-- SVG-Icon -->
                 <svg aria-hidden="true" class="mx-auto mb-4 w-12 h-12 fill-current text-primary">
                     <use href="#icon-shield-check"></use>
                 </svg>
-                <h4 class="text-xl font-semibold mb-2">Надёжность</h4>
-                <p class="text-gray-600">Гарантии перед клиентами.</p>
+                <h4 class="text-xl font-semibold mb-2">Zuverlässigkeit</h4>
+                <p class="text-gray-600">Garantien für Kunden.</p>
             </a>
             <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-bottom delay-200">
                 <svg aria-hidden="true" class="mx-auto mb-4 w-12 h-12 fill-current text-primary">
                     <use href="#icon-clock"></use>
                 </svg>
-                <h4 class="text-xl font-semibold mb-2">Быстрое оформление</h4>
-                <p class="text-gray-600">Минимум документов.</p>
+                <h4 class="text-xl font-semibold mb-2">Schnelle Abwicklung</h4>
+                <p class="text-gray-600">Minimaler Papierkram.</p>
             </a>
             <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-right delay-400">
                 <svg aria-hidden="true" class="mx-auto mb-4 w-12 h-12 fill-current text-primary">
                     <use href="#icon-headphones"></use>
                 </svg>
-                <h4 class="text-xl font-semibold mb-2">Поддержка 24/7</h4>
-                <p class="text-gray-600">Поддержка по всем вопросам.</p>
+                <h4 class="text-xl font-semibold mb-2">Support 24/7</h4>
+                <p class="text-gray-600">Unterstützung bei allen Fragen.</p>
             </a>
         </div>
     </div>
 </section>
-
 
 <svg style="display:none;">
     <symbol id="icon-shield-check" viewBox="0 0 24 24">

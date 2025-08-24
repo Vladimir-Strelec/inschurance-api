@@ -1,89 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Insurance UI</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Insurance UI</title>
 
-  <!-- Tailwind CSS — Play CDN с defer -->
-  <script src="https://cdn.tailwindcss.com?plugins=forms,typography" defer></script>
+    <!-- Tailwind CSS — Play CDN mit defer -->
+    <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
 
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Swiper CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/>
 
-  <style>
-    @keyframes fade-up {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
+    <style>
+        @keyframes fade-up {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+          animation: fade-up 0.8s ease-out forwards;
+        }
+        html {
+      scroll-behavior: smooth;
+      overflow-x: hidden; /* добавь это */
     }
-    .animate-fade-up {
-      animation: fade-up 0.8s ease-out forwards;
-    }
-    html { scroll-behavior: smooth; }
-  </style>
+    </style>
 </head>
 
 <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
-  <header class="sticky top-0 z-50 bg-white shadow py-4">
+<header class="sticky top-0 z-50 bg-white shadow py-4">
     <div class="container mx-auto px-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-primary">Insurance Portal</h1>
-      <nav class="space-x-4">
-        <a class="text-sm text-gray-600 hover:text-primary" href="{% url 'category_ui' %}">Домой</a>
-        <a class="text-sm text-gray-600 hover:text-primary" href="#about">О нас</a>
-        <a class="text-sm text-gray-600 hover:text-primary" href="{% url 'category_ui' %}#categories">Категории</a>
-        <a class="text-sm text-gray-600 hover:text-primary" href="#contact">Оставить запрос</a>
-        <a class="text-sm text-gray-600 hover:text-primary" href="#footer">Контакты</a>
-      </nav>
+        <h1 class="text-2xl font-bold text-primary">Insurance Portal</h1>
+        <nav class="space-x-4">
+            <a class="text-sm text-gray-600 hover:text-primary" href="{% url 'category_ui' %}#main">Startseite</a>
+            <a class="text-sm text-gray-600 hover:text-primary" href="{% url 'category_ui' %}#about">Über uns</a>
+            <a class="text-sm text-gray-600 hover:text-primary" href="{% url 'category_ui' %}#categories">Kategorien</a>
+            <a class="text-sm text-gray-600 hover:text-primary" href="{% url 'category_ui' %}#contact">Anfrage hinterlassen</a>
+            <a class="text-sm text-gray-600 hover:text-primary" href="#footer">Kontakt</a>
+        </nav>
     </div>
-  </header>
+</header>
 
-  <main class="flex-grow">
+<main class="flex-grow" id="main">
     {% block content %}{% endblock %}
-  </main>
+</main>
 
-  <footer class="bg-gray-100 py-4 mt-10 border-t" id="footer">
+<footer class="bg-gray-100 py-4 mt-10 border-t" id="footer">
     <div class="container mx-auto px-4 text-sm text-center text-gray-500">
-      &copy; 2025 Insurance Co. Все права защищены.
+        &copy; 2025 Insurance Co. Alle Rechte vorbehalten.
     </div>
-  </footer>
+</footer>
 
-<!-- кнопка -->
-<button id="contact-toggle"
-        class="fixed bottom-8 right-1 bg-white-600 text-white w-36 h-36 shadow-none flex items-center justify-center hover:scale-110 transition-transform duration-200"
+
+<!-- Schaltfläche -->
+<button class="fixed bottom-8 right-1 bg-white-600 text-white w-36 h-36 shadow-none flex items-center justify-center hover:scale-110 transition-transform duration-200"
         hx-get="{% url 'contact_form_partial' %}?mini=1"
+        hx-swap="innerHTML"
         hx-target="#mini-form-container"
-        hx-swap="innerHTML">
-  <img src="https://www.reshot.com/preview-assets/icons/E2AXH8J35C/to-do-list-E2AXH8J35C.svg"
-       alt="Контакты" class="w-36 h-36 pointer-events-none"/>
+        id="contact-toggle">
+    <img alt="Kontakt"
+         class="w-36 h-36 pointer-events-none" src="https://www.reshot.com/preview-assets/icons/E2AXH8J35C/to-do-list-E2AXH8J35C.svg"/>
 </button>
 
-<!-- контейнер для мини-формы -->
-<div id="mini-form-container"
-     class="hidden fixed bottom-44 right-6 bg-white p-4 rounded-lg shadow-lg w-80">
+<!-- Container für Mini-Formular -->
+<div class="hidden fixed bottom-44 right-6 bg-white p-4 rounded-lg shadow-lg w-80"
+     id="mini-form-container">
 </div>
 
-<!-- скрипт -->
+<!-- Skript -->
 <script>
-  document.addEventListener('click', e => {
-    const toggle = document.getElementById('contact-toggle');
-    const drawer = document.getElementById('mini-form-container');
-    if (toggle.contains(e.target)) {
-      drawer.classList.toggle('hidden');
-    } else if (!drawer.contains(e.target)) {
-      drawer.classList.add('hidden');
-    }
-  });
+    document.addEventListener('click', e => {
+      const toggle = document.getElementById('contact-toggle');
+      const drawer = document.getElementById('mini-form-container');
+      if (toggle.contains(e.target)) {
+        drawer.classList.toggle('hidden');
+      } else if (!drawer.contains(e.target)) {
+        drawer.classList.add('hidden');
+      }
+    });
 </script>
 
+<!-- HTMX ein Skript -->
+<script defer src="https://unpkg.com/htmx.org@1.9.2"></script>
 
+<!-- Swiper JS -->
+<script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-  <!-- HTMX один скрипт -->
-  <script src="https://unpkg.com/htmx.org@1.9.2" defer></script>
-
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
-
-  <script>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
       const swiper = new Swiper('.swiper', {
         slidesPerView: 1.2,
@@ -111,6 +113,6 @@
 
       document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
     });
-  </script>
+</script>
 </body>
 </html>

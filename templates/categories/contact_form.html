@@ -13,12 +13,12 @@
     <input type="hidden" name="mini" value="{% if is_mini %}1{% else %}0{% endif %}">
     <input type="hidden" name="idempotency_key" value="{{ uuid }}">
 
-    <input name="email" type="email" placeholder="Email" class="w-full border p-2 rounded" required>
-    <input name="phone" type="tel" placeholder="Телефон" class="w-full border p-2 rounded" required>
-    <textarea name="message" rows="4" placeholder="Сообщение" class="w-full border p-2 rounded"></textarea>
+    <input name="email" type="email" placeholder="E-Mail" class="w-full border p-2 rounded" required>
+    <input name="phone" type="tel" placeholder="Telefon" class="w-full border p-2 rounded" required>
+    <textarea name="message" rows="4" placeholder="Nachricht" class="w-full border p-2 rounded"></textarea>
 
     <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-950">
-      Отправить
+      Senden
     </button>
   </form>
 </div>

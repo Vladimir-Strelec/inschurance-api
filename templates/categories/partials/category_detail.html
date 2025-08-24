@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- Список подкатегорий -->
+<!-- Liste der Unterkategorien -->
 <section class="bg-gray-50 py-16">
   <div class="container mx-auto px-4 fade-up">
-    <h3 class="text-3xl font-bold text-primary mb-10 text-center">Подкатегория</h3>
+    <h3 class="text-3xl font-bold text-primary mb-10 text-center">Unterkategorie</h3>
 
     <div class="space-y-8">
 
       <div class="flex flex-col sm:flex-row bg-white rounded-xl shadow-md hover:shadow-2xl transition hover:-translate-y-1 overflow-hidden fade-up">
 
-        {% if sub_category.image_url %}
-        <div class="sm:w-1/2 w-full h-64 sm:h-auto">
-          <img src="{{ sub_category.image_url }}" alt="{{ sub_category.name }}"
-               class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
-        </div>
-        {% endif %}
+{% if sub_category.image_url %}
+<div class="sm:w-1/2 w-full aspect-[16/9] sm:aspect-auto sm:h-auto bg-white">
+  <img src="{{ sub_category.image_url }}" alt="{{ sub_category.name }}"
+       class="w-full h-full object-contain sm:object-cover transition-transform duration-500 sm:group-hover:scale-105" />
+</div>
+{% endif %}
 
         <div class="p-6 sm:w-1/2 flex flex-col justify-center">
           <h4 class="text-2xl font-semibold text-primary mb-3">{{ sub_category.name }}</h4>
@@ -23,7 +23,7 @@
           {% if sub_category.description %}
           <p class="text-gray-600 text-base leading-relaxed">{{ sub_category.description }}</p>
           {% else %}
-          <p class="text-gray-400 italic">Описание недоступно</p>
+          <p class="text-gray-400 italic">Beschreibung nicht verfügbar</p>
           {% endif %}
         </div>
       </div>
@@ -34,54 +34,54 @@
 
 
 
-<!-- Заголовок над каруселью -->
+<!-- Überschrift über dem Karussell -->
 <section class="bg-white py-6">
   <div class="container mx-auto px-4 text-center">
     <h2 class="text-4xl font-bold text-primary transition-opacity duration-1000 opacity-100 translate-y-0">
-      Вдохновляющие истории наших клиентов
+      Inspirierende Geschichten unserer Kunden
     </h2>
     <p class="text-gray-600 mt-2 transition-opacity duration-1000 delay-300 opacity-100 translate-y-0">
-      Узнайте, как страхование помогло им в сложных ситуациях.
+      Erfahren Sie, wie Versicherungen ihnen in schwierigen Situationen geholfen haben.
     </p>
   </div>
 </section>
 
 
-<!-- Swiper Карусель -->
+<!-- Swiper Karussell -->
 <section class="py-10 bg-white">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <!-- Слайд 1 -->
+      <!-- Slide 1 -->
       <div class="relative group overflow-hidden rounded-xl shadow-lg h-[34rem]">
         <img src="https://images.unsplash.com/photo-1475503572774-15a45e5d60b9?q=80&w=1170&auto=format&fit=crop"
              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-             alt="Анна, Москва">
+             alt="Anna, Moskau">
         <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <h3 class="text-3xl font-bold mb-2 text-white">Анна, Москва</h3>
-          <p class="max-w-2xl text-lg text-white"> Я попала в ДТП, и оформление страхового случая прошло очень быстро. Мне всё объяснили и помогли, как родной человек. Спасибо!</p>
+          <h3 class="text-3xl font-bold mb-2 text-white">Anna, Moskau</h3>
+          <p class="max-w-2xl text-lg text-white">Ich hatte einen Autounfall, und die Schadensregulierung verlief sehr schnell. Man hat mir alles erklärt und geholfen, wie ein Familienmitglied. Danke!</p>
         </div>
       </div>
 
-      <!-- Слайд 2 -->
+      <!-- Slide 2 -->
       <div class="relative group overflow-hidden rounded-xl shadow-lg h-[34rem]">
         <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1170&auto=format&fit=crop"
              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-             alt="Игорь, Санкт-Петербург">
+             alt="Igor, Sankt Petersburg">
         <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <h3 class="text-3xl font-bold mb-2 text-white">Игорь, Санкт-Петербург</h3>
-          <p class="max-w-2xl text-lg text-white">После угона автомобиля мне быстро выплатили компенсацию. Я не ожидал, что всё может пройти без головной боли.</p>
+          <h3 class="text-3xl font-bold mb-2 text-white">Igor, Sankt Petersburg</h3>
+          <p class="max-w-2xl text-lg text-white">Nach dem Diebstahl meines Autos habe ich schnell eine Entschädigung erhalten. Ich hätte nie gedacht, dass es so unkompliziert laufen könnte.</p>
         </div>
       </div>
 
-      <!-- Слайд 3 -->
+      <!-- Slide 3 -->
       <div class="relative group overflow-hidden rounded-xl shadow-lg h-[34rem]">
         <img src="https://images.unsplash.com/photo-1558898268-92ae44e7670e?q=80&w=1170&auto=format&fit=crop"
              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-             alt="Мария, Екатеринбург">
+             alt="Maria, Jekaterinburg">
         <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <h3 class="text-3xl font-bold mb-2 text-white">Мария, Екатеринбург</h3>
-          <p class="max-w-2xl text-lg text-white">Мы застраховали квартиру, и когда случился пожар, страховая компания полностью покрыла ущерб. Очень благодарны за поддержку!</p>
+          <h3 class="text-3xl font-bold mb-2 text-white">Maria, Jekaterinburg</h3>
+          <p class="max-w-2xl text-lg text-white">Wir hatten unsere Wohnung versichert, und als ein Brand ausbrach, hat die Versicherung den Schaden vollständig übernommen. Wir sind sehr dankbar für die Unterstützung!</p>
         </div>
       </div>
 
@@ -91,13 +91,12 @@
 
 
 
-
-<!-- Дополнительный блок: отзывы или цитата -->
+<!-- Zusätzlicher Block: Bewertungen oder Zitat -->
 <section class="bg-primary text-black py-16 px-4 mt-20 rounded-xl max-w-4xl mx-auto text-center fade-up">
   <blockquote class="italic text-xl max-w-3xl mx-auto">
-    "Страхование, которое работает для вас!"
+    "Versicherung, die für Sie funktioniert!"
   </blockquote>
-  <cite class="mt-4 block font-semibold">— Надёжность, проверенная временем</cite>
+  <cite class="mt-4 block font-semibold">— Zuverlässigkeit, bewährt durch die Zeit</cite>
 </section>
 
 <script>

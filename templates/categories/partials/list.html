@@ -6,7 +6,7 @@
         {% for sub in cat.subcategories.all %}
           <li>{{ sub.name }}</li>
         {% empty %}
-          <li class="italic text-gray-400">Нет подкатегорий</li>
+          <li class="italic text-gray-400">Keine Unterkategorien</li>
         {% endfor %}
       </ul>
     </div>
