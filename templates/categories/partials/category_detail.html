@@ -25,8 +25,18 @@
           {% else %}
           <p class="text-gray-400 italic">Beschreibung nicht verfügbar</p>
           {% endif %}
+          <button class="fixed bottom-8 right-14 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg
+               hover:bg-blue-700 transition duration-200"
+                  hx-get="{% url 'contact_form_partial' %}?mini=1"
+                  hx-swap="innerHTML"
+                  hx-target="#mini-form-container"
+                  id="contact-toggle">
+            Kontaktformular öffnen
+          </button>
+
         </div>
       </div>
+
 
     </div>
   </div>
@@ -58,7 +68,7 @@
              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
              alt="Anna, Moskau">
         <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <h3 class="text-3xl font-bold mb-2 text-white">Anna, Moskau</h3>
+          <h3 class="text-3xl font-bold mb-2 text-white">Anna, Nürnberg</h3>
           <p class="max-w-2xl text-lg text-white">Ich hatte einen Autounfall, und die Schadensregulierung verlief sehr schnell. Man hat mir alles erklärt und geholfen, wie ein Familienmitglied. Danke!</p>
         </div>
       </div>
@@ -69,7 +79,7 @@
              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
              alt="Igor, Sankt Petersburg">
         <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <h3 class="text-3xl font-bold mb-2 text-white">Igor, Sankt Petersburg</h3>
+          <h3 class="text-3xl font-bold mb-2 text-white">Frank, Nürnberg</h3>
           <p class="max-w-2xl text-lg text-white">Nach dem Diebstahl meines Autos habe ich schnell eine Entschädigung erhalten. Ich hätte nie gedacht, dass es so unkompliziert laufen könnte.</p>
         </div>
       </div>
@@ -80,7 +90,7 @@
              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
              alt="Maria, Jekaterinburg">
         <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <h3 class="text-3xl font-bold mb-2 text-white">Maria, Jekaterinburg</h3>
+          <h3 class="text-3xl font-bold mb-2 text-white">Maria, Nürnberg</h3>
           <p class="max-w-2xl text-lg text-white">Wir hatten unsere Wohnung versichert, und als ein Brand ausbrach, hat die Versicherung den Schaden vollständig übernommen. Wir sind sehr dankbar für die Unterstützung!</p>
         </div>
       </div>
