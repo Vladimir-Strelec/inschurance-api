@@ -9,7 +9,7 @@ router.register(r'sub-categories', SubCategoryViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('categories-ui/', category_ui, name='category_ui'),
+    path('', category_ui, name='category_ui'),
     path('categories/category_detail/<slug:slug>', CategoryDetail.as_view(), name='category_detail'),
     path('categories-ui/create/', create_main_category, name='create_main_category'),
     path('api/contact/', ContactMessageView.as_view(), name='contact_form_partial'),
