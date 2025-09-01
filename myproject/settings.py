@@ -12,7 +12,8 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [] if DEBUG else ["inschurance-api.onrender.com"]
+
+ALLOWED_HOSTS = ["*"] if DEBUG else ["www.inschurance.online", "inschurance.online", "inschurance-api.onrender.com"]
 
 
 INSTALLED_APPS = [
