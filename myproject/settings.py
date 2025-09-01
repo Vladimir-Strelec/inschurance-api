@@ -72,7 +72,7 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
+#
 DATABASES = {
     "default": dj_database_url.config(
         default=os.getenv("DATABASE_URL"),
@@ -81,8 +81,8 @@ DATABASES = {
     )
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+if DATABASES.get("mysql", {}).get("ENGINE") == "django.db.backends.mysql":
+    DATABASES["mysql"].setdefault("OPTIONS", {})
 
 AUTH_PASSWORD_VALIDATORS = [
     {
