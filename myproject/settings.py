@@ -5,11 +5,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-
-PREPEND_WWW = False
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+#
+# PREPEND_WWW = False
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,7 +85,7 @@ DATABASES = {
     "default": dj_database_url.config(
         default=os.getenv("DATABASE_URL"),
         conn_max_age=600,
-        ssl_require=not DEBUG  # True на проде, False локально
+        ssl_require=True
     )
 }
 
