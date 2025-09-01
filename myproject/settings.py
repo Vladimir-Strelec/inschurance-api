@@ -21,7 +21,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 
 ALLOWED_HOSTS = ["*"] if DEBUG else ["www.inschurance.online", "inschurance.online", "inschurance-api.onrender.com"]
-
+CSRF_TRUSTED_ORIGINS = ["https://inschurance.online", "https://www.inschurance.online"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
