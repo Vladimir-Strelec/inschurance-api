@@ -49,6 +49,7 @@ typing-inspection==0.4.1
 typing_extensions==4.14.1
 tzdata==2025.2
 urllib3==2.5.0
-
+dj-database-url>=2.1
+psycopg2-binary==2.9.9
 
 
