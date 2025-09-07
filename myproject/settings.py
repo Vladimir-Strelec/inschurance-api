@@ -8,8 +8,7 @@ load_dotenv()
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-USE_X_FORWARDED_HOST = True
+
 PREPEND_WWW = False
 
 
@@ -21,7 +20,7 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 
-ALLOWED_HOSTS = ["*"] if DEBUG else ["www.inschurance.online", "inschurance.online", "inschurance-api.onrender.com"]
+ALLOWED_HOSTS = [] if DEBUG else ["www.inschurance.online", "inschurance.online", "inschurance-api.onrender.com"]
 CSRF_TRUSTED_ORIGINS = ["https://inschurance.online", "https://www.inschurance.online"]
 
 INSTALLED_APPS = [
