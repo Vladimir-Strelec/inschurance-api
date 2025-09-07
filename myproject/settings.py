@@ -5,13 +5,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-
-PREPEND_WWW = False
-
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -19,9 +12,36 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
+# --- БЕЗОПАСНОСТЬ: делаем завязку на DEBUG ---
+if DEBUG:
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+    CSRF_TRUSTED_ORIGINS = [
+        "http://127.0.0.1:8000",
+        "http://localhost:8000",
+    ]
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_HSTS_SECONDS = 0
+    SECURE_PROXY_SSL_HEADER = None
+else:
+    ALLOWED_HOSTS = [
+        "inschurance.online",
+        "www.inschurance.online",
+        "inschurance-api.onrender.com",
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        "https://inschurance.online",
+        "https://www.inschurance.online",
+    ]
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    # Если за прокси (Render/NGINX) — пробрасываем схему
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-ALLOWED_HOSTS = [] if DEBUG else ["www.inschurance.online", "inschurance.online", "inschurance-api.onrender.com"]
-CSRF_TRUSTED_ORIGINS = ["https://inschurance.online", "https://www.inschurance.online"]
+PREPEND_WWW = False
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
