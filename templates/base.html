@@ -3,7 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Insurance UI</title>
+
+    <title>{% block title %}Insurance UI{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular. Schnelle Beratung und klare Tarife.{% endblock %}">
+    <link rel="canonical" href="https://inschurance.online{{ request.path }}">
+
+    <!-- hreflang (если есть RU-страницы — добавь реальный URL) -->
+    <link rel="alternate" href="https://inschurance.online{{ request.path }}" hreflang="de">
+    <!-- <link rel="alternate" href="https://inschurance.online/ru{{ request.path }}" hreflang="ru"> -->
+    <link rel="alternate" href="https://inschurance.online{{ request.path }}" hreflang="x-default">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Insurance Portal">
+    <meta property="og:title" content="{% block og_title %}Insurance UI{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular.{% endblock %}">
+    <meta property="og:url" content="https://inschurance.online{{ request.path }}">
+    <meta property="og:image" content="{% block og_image %}https://inschurance.online/static/og/og-image.jpg{% endblock %}">
+    <meta property="og:locale" content="de_DE">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block tw_title %}Insurance UI{% endblock %}">
+    <meta name="twitter:description" content="{% block tw_description %}Versicherungen in Nürnberg: Beratung und Anfrage.{% endblock %}">
+    <meta name="twitter:image" content="{% block tw_image %}https://inschurance.online/static/og/og-image.jpg{% endblock %}">
+
+    <!-- Favicon / Manifest -->
+    <link rel="icon" href="/static/favicon.ico" sizes="any">
+    <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+
+    <!-- Preconnect к CDN -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
     <!-- Tailwind CSS — Play CDN mit defer -->
     <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
@@ -16,26 +50,47 @@
           0% { opacity: 0; transform: translateY(30px); }
           100% { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-up {
-          animation: fade-up 0.8s ease-out forwards;
-        }
-        html {
-      scroll-behavior: smooth;
-      overflow-x: hidden; /* добавь это */
-    }
+        .animate-fade-up { animation: fade-up 0.8s ease-out forwards; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
     </style>
+
+    <!-- JSON-LD: WebSite + SearchAction -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Insurance Portal",
+      "url": "https://inschurance.online/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://inschurance.online/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD: Organization (минимум) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Insurance Portal",
+      "url": "https://inschurance.online/",
+      "logo": "https://inschurance.online/static/og/og-image.jpg"
+    }
+    </script>
 </head>
 
 <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
 <header class="sticky top-0 z-50 bg-white shadow py-4">
     <div class="container mx-auto px-4 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-primary">Insurance Portal</h1>
-        <nav class="space-x-4">
-            <a class="text-sm text-gray-600 hover:text-primary" href="{% url 'category_ui' %}#main">Startseite</a>
-            <a class="text-sm text-gray-600 hover:text-primary" href="{% url 'category_ui' %}#about">Über uns</a>
-            <a class="text-sm text-gray-600 hover:text-primary" href="{% url 'category_ui' %}#categories">Kategorien</a>
-            <a class="text-sm text-gray-600 hover:text-primary" href="{% url 'category_ui' %}#contact">Anfrage hinterlassen</a>
-            <a class="text-sm text-gray-600 hover:text-primary" href="#footer">Kontakt</a>
+        <h1 class="text-2xl font-bold text-indigo-600">Insurance Portal</h1>
+        <nav class="space-x-4" aria-label="Hauptnavigation">
+            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#main">Startseite</a>
+            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#about">Über uns</a>
+            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#categories">Kategorien</a>
+            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#contact">Anfrage hinterlassen</a>
+            <a class="text-sm text-gray-600 hover:text-indigo-600" href="#footer">Kontakt</a>
         </nav>
     </div>
 </header>
@@ -50,36 +105,44 @@
     </div>
 </footer>
 
-
-<!-- Schaltfläche -->
-<button class="fixed bottom-8 right-1 bg-white-600 text-white w-36 h-36 shadow-none flex items-center justify-center hover:scale-110 transition-transform duration-200"
-        hx-get="{% url 'contact_form_partial' %}?mini=1"
-        hx-swap="innerHTML"
-        hx-target="#mini-form-container"
-        id="contact-toggle">
-    <img alt="Kontakt"
-         class="w-36 h-36 pointer-events-none" src="https://www.reshot.com/preview-assets/icons/E2AXH8J35C/to-do-list-E2AXH8J35C.svg"/>
+<!-- FAB-кнопка -->
+<button
+    class="fixed bottom-8 right-4 bg-indigo-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    hx-get="{% url 'contact_form_partial' %}?mini=1"
+    hx-swap="innerHTML"
+    hx-target="#mini-form-container"
+    id="contact-toggle"
+    aria-label="Kontaktformular öffnen"
+    aria-controls="mini-form-container"
+    aria-expanded="false">
+    <img alt="Kontakt" class="w-8 h-8 pointer-events-none" src="https://www.reshot.com/preview-assets/icons/E2AXH8J35C/to-do-list-E2AXH8J35C.svg" loading="lazy" decoding="async"/>
 </button>
 
-<!-- Container für Mini-Formular -->
-<div class="hidden fixed bottom-44 right-6 bg-white p-4 rounded-lg shadow-lg w-80"
-     id="mini-form-container">
+<!-- Контейнер для мини-формы -->
+<div class="hidden fixed bottom-28 right-6 bg-white p-4 rounded-lg shadow-lg w-80 border border-gray-200"
+     id="mini-form-container" role="dialog" aria-modal="true" aria-labelledby="mini-form-title">
 </div>
 
-<!-- Skript -->
+<!-- Скрипт: логика открытия/закрытия -->
 <script>
     document.addEventListener('click', e => {
       const toggle = document.getElementById('contact-toggle');
       const drawer = document.getElementById('mini-form-container');
-      if (toggle.contains(e.target)) {
+      const clickedToggle = toggle.contains(e.target);
+      const clickedOutside = !drawer.contains(e.target) && !clickedToggle;
+
+      if (clickedToggle) {
         drawer.classList.toggle('hidden');
-      } else if (!drawer.contains(e.target)) {
+        const expanded = drawer.classList.contains('hidden') ? 'false' : 'true';
+        toggle.setAttribute('aria-expanded', expanded);
+      } else if (clickedOutside) {
         drawer.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
       }
     });
 </script>
 
-<!-- HTMX ein Skript -->
+<!-- HTMX -->
 <script defer src="https://unpkg.com/htmx.org@1.9.2"></script>
 
 <!-- Swiper JS -->
@@ -87,20 +150,22 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const swiper = new Swiper('.swiper', {
-        slidesPerView: 1.2,
-        spaceBetween: 20,
-        centeredSlides: true,
-        loop: true,
-        autoplay: { delay: 4000, disableOnInteraction: false },
-        pagination: { el: '.swiper-pagination', clickable: true },
-        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-        breakpoints: {
-          640: { slidesPerView: 1.5 },
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-        },
-      });
+      if (document.querySelector('.swiper')) {
+        const swiper = new Swiper('.swiper', {
+          slidesPerView: 1.2,
+          spaceBetween: 20,
+          centeredSlides: true,
+          loop: true,
+          autoplay: { delay: 4000, disableOnInteraction: false },
+          pagination: { el: '.swiper-pagination', clickable: true },
+          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+          breakpoints: {
+            640: { slidesPerView: 1.5 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 }
+          }
+        });
+      }
 
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {

@@ -6,7 +6,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.views.decorators.http import require_POST
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpResponse
 from .models import MainCategory
 from .models import SubCategory, InsuranceStory
 from .serializers import ContactMessageSerializer
@@ -194,3 +194,12 @@ def contact_form_partial(request):
         "categories/contact_form.html",   # та же частичка формы
         {"is_mini": True, "uuid": key}
     )
+
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Disallow: /",
+        "Sitemap: https://inschurance.online/sitemap.xml"
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
