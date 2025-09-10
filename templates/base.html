@@ -6,78 +6,60 @@
 
     <title>{% block title %}Insurance UI{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular. Schnelle Beratung und klare Tarife.{% endblock %}">
-    <link rel="canonical" href="https://inschurance.online{{ request.path }}">
+    <link rel="canonical" href="https://inschurance.online{{ request.path|default:'/' }}">
 
-    <!-- hreflang (если есть RU-страницы — добавь реальный URL) -->
-    <link rel="alternate" href="https://inschurance.online{{ request.path }}" hreflang="de">
-    <!-- <link rel="alternate" href="https://inschurance.online/ru{{ request.path }}" hreflang="ru"> -->
-    <link rel="alternate" href="https://inschurance.online{{ request.path }}" hreflang="x-default">
+    <link rel="alternate" href="https://inschurance.online{{ request.path|default:'/' }}" hreflang="de">
+    <link rel="alternate" href="https://inschurance.online{{ request.path|default:'/' }}" hreflang="x-default">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Insurance Portal">
     <meta property="og:title" content="{% block og_title %}Insurance UI{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular.{% endblock %}">
-    <meta property="og:url" content="https://inschurance.online{{ request.path }}">
-    <meta property="og:image" content="{% block og_image %}https://inschurance.online/static/og/og-image.jpg{% endblock %}">
-    <meta property="og:locale" content="de_DE">
+    <meta property="og:url" content="https://inschurance.online{{ request.path|default:'/' }}">
+    <!-- ЗАМЕНЕНО: абсолютный внешний URL -->
+    <meta property="og:image" content="{% block og_image %}https://placehold.co/1200x630/png{% endblock %}">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block tw_title %}Insurance UI{% endblock %}">
     <meta name="twitter:description" content="{% block tw_description %}Versicherungen in Nürnberg: Beratung und Anfrage.{% endblock %}">
-    <meta name="twitter:image" content="{% block tw_image %}https://inschurance.online/static/og/og-image.jpg{% endblock %}">
+    <!-- ЗАМЕНЕНО: абсолютный внешний URL -->
+    <meta name="twitter:image" content="{% block tw_image %}https://placehold.co/1200x630/png{% endblock %}">
 
-    <!-- Favicon / Manifest -->
-    <link rel="icon" href="/static/favicon.ico" sizes="any">
-    <link rel="icon" href="/static/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
-    <link rel="manifest" href="/static/site.webmanifest">
+    <!-- Favicon: без обращения к /static -->
+    <link rel="icon" href="data:,">
+
+    <!-- УБРАНО: manifest, apple-touch-icon, любые ссылки на /static -->
 
     <!-- Preconnect к CDN -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
-    <!-- Tailwind CSS — Play CDN mit defer -->
+    <!-- Tailwind CSS -->
     <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
 
     <!-- Swiper CSS -->
     <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet"/>
 
     <style>
-        @keyframes fade-up {
-          0% { opacity: 0; transform: translateY(30px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fade-up { 0%{opacity:0;transform:translateY(30px)} 100%{opacity:1;transform:translateY(0)} }
         .animate-fade-up { animation: fade-up 0.8s ease-out forwards; }
         html { scroll-behavior: smooth; overflow-x: hidden; }
     </style>
 
-    <!-- JSON-LD: WebSite + SearchAction -->
+    <!-- JSON-LD: WebSite -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Insurance Portal",
-      "url": "https://inschurance.online/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://inschurance.online/?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
+    { "@context":"https://schema.org", "@type":"WebSite",
+      "name":"Insurance Portal","url":"https://inschurance.online/",
+      "potentialAction":{"@type":"SearchAction","target":"https://inschurance.online/?q={search_term_string}","query-input":"required name=search_term_string"} }
     </script>
-
-    <!-- JSON-LD: Organization (минимум) -->
+    <!-- JSON-LD: Organization (ЗАМЕНЕНО: абсолютный URL) -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Insurance Portal",
-      "url": "https://inschurance.online/",
-      "logo": "https://inschurance.online/static/og/og-image.jpg"
-    }
+    { "@context":"https://schema.org", "@type":"Organization",
+      "name":"Insurance Portal","url":"https://inschurance.online/",
+      "logo":"https://placehold.co/600x315/png" }
     </script>
 </head>
 
@@ -107,10 +89,9 @@
 
 <!-- FAB-кнопка -->
 <button
-  class="fixed bottom-8 right-4 bg-transparent text-white w-36 h-36 rounded-full shadow-lg
+  class="fixed bottom-8 right-4 bg-transparent w-16 h-16 rounded-full shadow-lg
          flex items-center justify-center hover:scale-110 transition-transform duration-200
-         outline-none focus:outline-none focus:ring-0 focus:ring-transparent focus:ring-offset-0
-         focus:shadow-none active:outline-none active:ring-0"
+         outline-none focus:outline-none focus:ring-0 focus:ring-offset-0 active:outline-none"
   style="-webkit-tap-highlight-color: transparent;"
   hx-get="{% url 'contact_form_partial' %}?mini=1"
   hx-swap="innerHTML"
@@ -119,7 +100,7 @@
   aria-label="Kontaktformular öffnen"
   aria-controls="mini-form-container"
   aria-expanded="false">
-  <img alt="Kontakt" class="w-38 h-38 pointer-events-none"
+  <img alt="Kontakt" class="w-8 h-8 pointer-events-none"
        src="https://www.reshot.com/preview-assets/icons/E2AXH8J35C/to-do-list-E2AXH8J35C.svg"
        loading="lazy" decoding="async"/>
 </button>
@@ -131,21 +112,20 @@
 
 <!-- Скрипт: логика открытия/закрытия -->
 <script>
-    document.addEventListener('click', e => {
-      const toggle = document.getElementById('contact-toggle');
-      const drawer = document.getElementById('mini-form-container');
-      const clickedToggle = toggle.contains(e.target);
-      const clickedOutside = !drawer.contains(e.target) && !clickedToggle;
+document.addEventListener('click', e => {
+  const toggle = document.getElementById('contact-toggle');
+  const drawer = document.getElementById('mini-form-container');
+  const clickedToggle = toggle.contains(e.target);
+  const clickedOutside = !drawer.contains(e.target) && !clickedToggle;
 
-      if (clickedToggle) {
-        drawer.classList.toggle('hidden');
-        const expanded = drawer.classList.contains('hidden') ? 'false' : 'true';
-        toggle.setAttribute('aria-expanded', expanded);
-      } else if (clickedOutside) {
-        drawer.classList.add('hidden');
-        toggle.setAttribute('aria-expanded', 'false');
-      }
-    });
+  if (clickedToggle) {
+    drawer.classList.toggle('hidden');
+    toggle.setAttribute('aria-expanded', drawer.classList.contains('hidden') ? 'false' : 'true');
+  } else if (clickedOutside) {
+    drawer.classList.add('hidden');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+});
 </script>
 
 <!-- HTMX -->
@@ -155,35 +135,21 @@
 <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (document.querySelector('.swiper')) {
-        const swiper = new Swiper('.swiper', {
-          slidesPerView: 1.2,
-          spaceBetween: 20,
-          centeredSlides: true,
-          loop: true,
-          autoplay: { delay: 4000, disableOnInteraction: false },
-          pagination: { el: '.swiper-pagination', clickable: true },
-          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-          breakpoints: {
-            640: { slidesPerView: 1.5 },
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 }
-          }
-        });
-      }
-
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-up');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
-
-      document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.querySelector('.swiper')) {
+    const swiper = new Swiper('.swiper', {
+      slidesPerView: 1.2, spaceBetween: 20, centeredSlides: true, loop: true,
+      autoplay: { delay: 4000, disableOnInteraction: false },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+      breakpoints: { 640:{slidesPerView:1.5}, 768:{slidesPerView:2}, 1024:{slidesPerView:3} }
     });
+  }
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('animate-fade-up'); observer.unobserve(entry.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+});
 </script>
 </body>
 </html>
