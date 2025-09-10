@@ -1,11 +1,12 @@
 import requests
 from django.shortcuts import render
+from django.views.decorators.cache import cache_control
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.http import HttpResponseBadRequest, HttpResponse
 from .models import MainCategory
 from .models import SubCategory, InsuranceStory
@@ -203,10 +204,15 @@ def gsc_verification(request):
         content_type="text/plain"
     )
 
+
+@require_GET
+@cache_control(max_age=86400)
 def robots_txt(request):
+    scheme = 'https' if request.is_secure() else 'http'
+    host = request.get_host()
     lines = [
         "User-agent: *",
-        "Disallow: /",
-        "Sitemap: https://inschurance.online/sitemap.xml"
+        "Allow: /",
+        f"Sitemap: {scheme}://{host}/sitemap.xml",
     ]
-    return HttpResponse("\n".join(lines), content_type="text/plain")
+    return HttpResponse("\n".join(lines) + "\n", content_type="text/plain; charset=utf-8")

@@ -36,6 +36,6 @@ urlpatterns = [
         {'sitemaps': sitemaps},
         name='django.contrib.sitemaps.views.sitemap'
     ),
-    path("robots.txt", robots_txt),
+    path("robots.txt", robots_txt, name="robots_txt"),
     path("googlebe58e3a7529dfcf2.html", gsc_verification, name="gsc_verification"),
 ]
