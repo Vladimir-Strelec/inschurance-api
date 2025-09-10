@@ -1,10 +1,10 @@
-# urls.py
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.contrib.sitemaps.views import sitemap
 from .views import MainCategoryViewSet, SubCategoryViewSet, category_ui, create_main_category, ContactMessageView, \
     calculate_insurance, chat_with_llm, CategoryDetail, robots_txt
 from .sitemaps import StorySitemap, SubCategorySitemap, MainCategorySitemap  # <- добавлено
+from .views import gsc_verification
 
 router = DefaultRouter()
 router.register(r'main-categories', MainCategoryViewSet)
@@ -37,4 +37,5 @@ urlpatterns = [
         name='django.contrib.sitemaps.views.sitemap'
     ),
     path("robots.txt", robots_txt),
+    path("googlebe58e3a7529dfcf2.html", gsc_verification, name="gsc_verification"),
 ]

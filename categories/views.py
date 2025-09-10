@@ -196,6 +196,13 @@ def contact_form_partial(request):
     )
 
 
+def gsc_verification(request):
+    # ВСТАВЬ СВОЮ СТРОКУ ИЗ ФАЙЛА НИЖЕ:
+    return HttpResponse(
+        "google-site-verification: googlebe58e3a7529dfcf2.html",
+        content_type="text/plain"
+    )
+
 def robots_txt(request):
     lines = [
         "User-agent: *",
