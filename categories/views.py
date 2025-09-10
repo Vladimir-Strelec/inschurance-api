@@ -208,11 +208,9 @@ def gsc_verification(request):
 @require_GET
 @cache_control(max_age=86400)
 def robots_txt(request):
-    scheme = 'https' if request.is_secure() else 'http'
-    host = request.get_host()
     lines = [
         "User-agent: *",
         "Allow: /",
-        f"Sitemap: {scheme}://{host}/sitemap.xml",
+        "Sitemap: https://www.inschurance.online/sitemap.xml",
     ]
     return HttpResponse("\n".join(lines) + "\n", content_type="text/plain; charset=utf-8")

@@ -5,37 +5,45 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>{% block title %}Insurance UI{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular. Schnelle Beratung und klare Tarife.{% endblock %}">
-    <link rel="canonical" href="https://inschurance.online{{ request.path|default:'/' }}">
+    <meta content="{% block meta_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular. Schnelle Beratung und klare Tarife.{% endblock %}"
+          name="description">
+    <link href="https://inschurance.online{{ request.path|default:'/' }}" rel="canonical">
 
-    <link rel="alternate" href="https://inschurance.online{{ request.path|default:'/' }}" hreflang="de">
-    <link rel="alternate" href="https://inschurance.online{{ request.path|default:'/' }}" hreflang="x-default">
+    <link href="https://inschurance.online{{ request.path|default:'/' }}" hreflang="de" rel="alternate">
+    <link href="https://inschurance.online{{ request.path|default:'/' }}" hreflang="x-default" rel="alternate">
+
+    <link href="https://www.inschurance.online{{ request.path|default:'/' }}" rel="canonical">
+    <link href="https://www.inschurance.online{{ request.path|default:'/' }}" hreflang="de" rel="alternate">
+    <link href="https://www.inschurance.online{{ request.path|default:'/' }}" hreflang="x-default" rel="alternate">
+    <meta content="https://www.inschurance.online{{ request.path|default:'/' }}" property="og:url">
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Insurance Portal">
-    <meta property="og:title" content="{% block og_title %}Insurance UI{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular.{% endblock %}">
-    <meta property="og:url" content="https://inschurance.online{{ request.path|default:'/' }}">
+    <meta content="website" property="og:type">
+    <meta content="Insurance Portal" property="og:site_name">
+    <meta content="{% block og_title %}Insurance UI{% endblock %}" property="og:title">
+    <meta content="{% block og_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular.{% endblock %}"
+          property="og:description">
+    <meta content="https://inschurance.online{{ request.path|default:'/' }}" property="og:url">
     <!-- ЗАМЕНЕНО: абсолютный внешний URL -->
-    <meta property="og:image" content="{% block og_image %}https://placehold.co/1200x630/png{% endblock %}">
+    <meta content="{% block og_image %}https://placehold.co/1200x630/png{% endblock %}" property="og:image">
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% block tw_title %}Insurance UI{% endblock %}">
-    <meta name="twitter:description" content="{% block tw_description %}Versicherungen in Nürnberg: Beratung und Anfrage.{% endblock %}">
+    <meta content="summary_large_image" name="twitter:card">
+    <meta content="{% block tw_title %}Insurance UI{% endblock %}" name="twitter:title">
+    <meta content="{% block tw_description %}Versicherungen in Nürnberg: Beratung und Anfrage.{% endblock %}"
+          name="twitter:description">
     <!-- ЗАМЕНЕНО: абсолютный внешний URL -->
-    <meta name="twitter:image" content="{% block tw_image %}https://placehold.co/1200x630/png{% endblock %}">
+    <meta content="{% block tw_image %}https://placehold.co/1200x630/png{% endblock %}" name="twitter:image">
 
     <!-- Favicon: без обращения к /static -->
-    <link rel="icon" href="data:,">
+    <link href="data:," rel="icon">
 
     <!-- УБРАНО: manifest, apple-touch-icon, любые ссылки на /static -->
 
     <!-- Preconnect к CDN -->
-    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link crossorigin href="https://cdn.tailwindcss.com" rel="preconnect">
+    <link crossorigin href="https://cdn.jsdelivr.net" rel="preconnect">
+    <link crossorigin href="https://unpkg.com" rel="preconnect">
 
     <!-- Tailwind CSS -->
     <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
@@ -51,15 +59,27 @@
 
     <!-- JSON-LD: WebSite -->
     <script type="application/ld+json">
-    { "@context":"https://schema.org", "@type":"WebSite",
-      "name":"Insurance Portal","url":"https://inschurance.online/",
-      "potentialAction":{"@type":"SearchAction","target":"https://inschurance.online/?q={search_term_string}","query-input":"required name=search_term_string"} }
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Insurance Portal",
+            "url": "https://inschurance.online/",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://inschurance.online/?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        }
     </script>
     <!-- JSON-LD: Organization (ЗАМЕНЕНО: абсолютный URL) -->
     <script type="application/ld+json">
-    { "@context":"https://schema.org", "@type":"Organization",
-      "name":"Insurance Portal","url":"https://inschurance.online/",
-      "logo":"https://placehold.co/600x315/png" }
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Insurance Portal",
+            "url": "https://inschurance.online/",
+            "logo": "https://placehold.co/600x315/png"
+        }
     </script>
 </head>
 
@@ -67,11 +87,13 @@
 <header class="sticky top-0 z-50 bg-white shadow py-4">
     <div class="container mx-auto px-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold text-indigo-600">Insurance Portal</h1>
-        <nav class="space-x-4" aria-label="Hauptnavigation">
+        <nav aria-label="Hauptnavigation" class="space-x-4">
             <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#main">Startseite</a>
             <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#about">Über uns</a>
-            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#categories">Kategorien</a>
-            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#contact">Anfrage hinterlassen</a>
+            <a class="text-sm text-gray-600 hover:text-indigo-600"
+               href="{% url 'category_ui' %}#categories">Kategorien</a>
+            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#contact">Anfrage
+                hinterlassen</a>
             <a class="text-sm text-gray-600 hover:text-indigo-600" href="#footer">Kontakt</a>
         </nav>
     </div>
@@ -89,43 +111,43 @@
 
 <!-- FAB-кнопка -->
 <button
-  class="fixed bottom-8 right-4 bg-transparent w-16 h-16 rounded-full shadow-lg
+        aria-controls="mini-form-container"
+        aria-expanded="false"
+        aria-label="Kontaktformular öffnen"
+        class="fixed bottom-8 right-4 bg-transparent w-16 h-16 rounded-full shadow-lg
          flex items-center justify-center hover:scale-110 transition-transform duration-200
          outline-none focus:outline-none focus:ring-0 focus:ring-offset-0 active:outline-none"
-  style="-webkit-tap-highlight-color: transparent;"
-  hx-get="{% url 'contact_form_partial' %}?mini=1"
-  hx-swap="innerHTML"
-  hx-target="#mini-form-container"
-  id="contact-toggle"
-  aria-label="Kontaktformular öffnen"
-  aria-controls="mini-form-container"
-  aria-expanded="false">
-  <img alt="Kontakt" class="w-8 h-8 pointer-events-none"
-       src="https://www.reshot.com/preview-assets/icons/E2AXH8J35C/to-do-list-E2AXH8J35C.svg"
-       loading="lazy" decoding="async"/>
+        hx-get="{% url 'contact_form_partial' %}?mini=1"
+        hx-swap="innerHTML"
+        hx-target="#mini-form-container"
+        id="contact-toggle"
+        style="-webkit-tap-highlight-color: transparent;">
+    <img alt="Kontakt" class="w-8 h-8 pointer-events-none"
+         decoding="async"
+         loading="lazy" src="https://www.reshot.com/preview-assets/icons/E2AXH8J35C/to-do-list-E2AXH8J35C.svg"/>
 </button>
 
 <!-- Контейнер для мини-формы -->
-<div class="hidden fixed bottom-28 right-6 bg-white p-4 rounded-lg shadow-lg w-80 border border-gray-200"
-     id="mini-form-container" role="dialog" aria-modal="true" aria-labelledby="mini-form-title">
+<div aria-labelledby="mini-form-title"
+     aria-modal="true" class="hidden fixed bottom-28 right-6 bg-white p-4 rounded-lg shadow-lg w-80 border border-gray-200" id="mini-form-container" role="dialog">
 </div>
 
 <!-- Скрипт: логика открытия/закрытия -->
 <script>
-document.addEventListener('click', e => {
-  const toggle = document.getElementById('contact-toggle');
-  const drawer = document.getElementById('mini-form-container');
-  const clickedToggle = toggle.contains(e.target);
-  const clickedOutside = !drawer.contains(e.target) && !clickedToggle;
+    document.addEventListener('click', e => {
+      const toggle = document.getElementById('contact-toggle');
+      const drawer = document.getElementById('mini-form-container');
+      const clickedToggle = toggle.contains(e.target);
+      const clickedOutside = !drawer.contains(e.target) && !clickedToggle;
 
-  if (clickedToggle) {
-    drawer.classList.toggle('hidden');
-    toggle.setAttribute('aria-expanded', drawer.classList.contains('hidden') ? 'false' : 'true');
-  } else if (clickedOutside) {
-    drawer.classList.add('hidden');
-    toggle.setAttribute('aria-expanded', 'false');
-  }
-});
+      if (clickedToggle) {
+        drawer.classList.toggle('hidden');
+        toggle.setAttribute('aria-expanded', drawer.classList.contains('hidden') ? 'false' : 'true');
+      } else if (clickedOutside) {
+        drawer.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
 </script>
 
 <!-- HTMX -->
@@ -135,21 +157,21 @@ document.addEventListener('click', e => {
 <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  if (document.querySelector('.swiper')) {
-    const swiper = new Swiper('.swiper', {
-      slidesPerView: 1.2, spaceBetween: 20, centeredSlides: true, loop: true,
-      autoplay: { delay: 4000, disableOnInteraction: false },
-      pagination: { el: '.swiper-pagination', clickable: true },
-      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-      breakpoints: { 640:{slidesPerView:1.5}, 768:{slidesPerView:2}, 1024:{slidesPerView:3} }
+    document.addEventListener('DOMContentLoaded', () => {
+      if (document.querySelector('.swiper')) {
+        const swiper = new Swiper('.swiper', {
+          slidesPerView: 1.2, spaceBetween: 20, centeredSlides: true, loop: true,
+          autoplay: { delay: 4000, disableOnInteraction: false },
+          pagination: { el: '.swiper-pagination', clickable: true },
+          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+          breakpoints: { 640:{slidesPerView:1.5}, 768:{slidesPerView:2}, 1024:{slidesPerView:3} }
+        });
+      }
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('animate-fade-up'); observer.unobserve(entry.target); }});
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
     });
-  }
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('animate-fade-up'); observer.unobserve(entry.target); }});
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-});
 </script>
 </body>
 </html>
