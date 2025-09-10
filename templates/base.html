@@ -107,15 +107,21 @@
 
 <!-- FAB-кнопка -->
 <button
-    class="fixed bottom-8 right-4 bg-indigo-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-    hx-get="{% url 'contact_form_partial' %}?mini=1"
-    hx-swap="innerHTML"
-    hx-target="#mini-form-container"
-    id="contact-toggle"
-    aria-label="Kontaktformular öffnen"
-    aria-controls="mini-form-container"
-    aria-expanded="false">
-    <img alt="Kontakt" class="w-8 h-8 pointer-events-none" src="https://www.reshot.com/preview-assets/icons/E2AXH8J35C/to-do-list-E2AXH8J35C.svg" loading="lazy" decoding="async"/>
+  class="fixed bottom-8 right-4 bg-transparent text-white w-36 h-36 rounded-full shadow-lg
+         flex items-center justify-center hover:scale-110 transition-transform duration-200
+         outline-none focus:outline-none focus:ring-0 focus:ring-transparent focus:ring-offset-0
+         focus:shadow-none active:outline-none active:ring-0"
+  style="-webkit-tap-highlight-color: transparent;"
+  hx-get="{% url 'contact_form_partial' %}?mini=1"
+  hx-swap="innerHTML"
+  hx-target="#mini-form-container"
+  id="contact-toggle"
+  aria-label="Kontaktformular öffnen"
+  aria-controls="mini-form-container"
+  aria-expanded="false">
+  <img alt="Kontakt" class="w-38 h-38 pointer-events-none"
+       src="https://www.reshot.com/preview-assets/icons/E2AXH8J35C/to-do-list-E2AXH8J35C.svg"
+       loading="lazy" decoding="async"/>
 </button>
 
 <!-- Контейнер для мини-формы -->
