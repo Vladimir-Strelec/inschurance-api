@@ -198,9 +198,9 @@ def gsc_verification(request):
 
 
 def robots_txt(_request):
-    return HttpResponse(
-        "User-agent: *\n"
-        "Disallow:\n"
-        "Sitemap: https://inschurance.online/sitemap.xml\n",
-        content_type="text/plain"
-    )
+    lines = [
+        "User-agent: *",
+        "Disallow:",
+        "Sitemap: https://inschurance.online/sitemap.xml"
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
