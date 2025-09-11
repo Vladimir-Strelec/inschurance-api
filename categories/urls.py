@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from django.contrib.sitemaps.views import sitemap
 from .views import MainCategoryViewSet, SubCategoryViewSet, category_ui, create_main_category, ContactMessageView, \
     calculate_insurance, chat_with_llm, CategoryDetail, robots_txt
-from .sitemaps import StorySitemap, SubCategorySitemap, MainCategorySitemap  # <- добавлено
+from .sitemaps import StorySitemap, SubCategorySitemap, MainCategorySitemap
 from .views import gsc_verification
 
 router = DefaultRouter()
@@ -29,13 +29,7 @@ urlpatterns = [
     path('api/chat/', chat_with_llm, name='chat_with_llm'),
     path('api/contact/', ContactMessageView.as_view(), name='contact_api'),
 
-    # добавлено: маршрут для sitemap.xml
-    path(
-        'sitemap.xml',
-        sitemap,
-        {'sitemaps': sitemaps},
-        name='django.contrib.sitemaps.views.sitemap'
-    ),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("robots.txt", robots_txt, name="robots_txt"),
     path("googlebe58e3a7529dfcf2.html", gsc_verification, name="gsc_verification"),
 ]

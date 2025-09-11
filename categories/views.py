@@ -1,32 +1,22 @@
+import json
 import requests
+
+from django.core.cache import cache
+from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.decorators.cache import cache_control
-from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.views.generic import DetailView
 from rest_framework import viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.views.decorators.http import require_POST, require_GET
-from django.http import HttpResponseBadRequest, HttpResponse
+
 from .models import MainCategory
 from .models import SubCategory, InsuranceStory
 from .serializers import ContactMessageSerializer
 from .serializers import MainCategorySerializer, SubCategorySerializer
-from django.http import JsonResponse
-import os
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from openai import OpenAI
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-import json, requests
-from django.views.generic import ListView, CreateView, DetailView
-from django.core.cache import cache
-import uuid, hashlib
-
 from .utils import get_or_create_lead_key
 
 
@@ -82,9 +72,9 @@ class ContactMessageView(APIView):
     def post(self, request):
         # Берем ключ из заголовка или поля. Если нет — подставим из сессии, чтобы не падать.
         key = (
-            request.headers.get("Idempotency-Key")
-            or request.data.get("idempotency_key")
-            or request.session.get("lead_idemp")
+                request.headers.get("Idempotency-Key")
+                or request.data.get("idempotency_key")
+                or request.session.get("lead_idemp")
         )
         if not key:
             return Response({"detail": "Missing idempotency key"}, status=400)
@@ -104,7 +94,8 @@ class ContactMessageView(APIView):
             is_htmx = request.headers.get("HX-Request") == "true" or request.headers.get("Hx-Request") == "true"
             is_mini = (request.data.get("mini") == "1") or (request.POST.get("mini") == "1")
             if is_htmx:
-                return render(request, "categories/contact_form.html", {"errors": serializer.errors, "is_mini": is_mini, "uuid": key}, status=400)
+                return render(request, "categories/contact_form.html",
+                              {"errors": serializer.errors, "is_mini": is_mini, "uuid": key}, status=400)
             return Response(serializer.errors, status=400)
 
         obj = serializer.save()
@@ -121,6 +112,7 @@ class ContactMessageView(APIView):
 
         # НЕ-HTMX большая форма: рендерим полноценную страницу успеха
         return render(request, "categories/contact_success_page.html", {"id": obj.id}, status=201)
+
 
 @require_POST
 def calculate_insurance(request):
@@ -192,7 +184,7 @@ def contact_form_partial(request):
     key = get_or_create_lead_key(request)
     return render(
         request,
-        "categories/contact_form.html",   # та же частичка формы
+        "categories/contact_form.html",  # та же частичка формы
         {"is_mini": True, "uuid": key}
     )
 
@@ -205,12 +197,10 @@ def gsc_verification(request):
     )
 
 
-@require_GET
-@cache_control(max_age=86400)
-def robots_txt(request):
-    lines = [
-        "User-agent: *",
-        "Allow: /",
-        "Sitemap: https://www.inschurance.online/sitemap.xml",
-    ]
-    return HttpResponse("\n".join(lines) + "\n", content_type="text/plain; charset=utf-8")
+def robots_txt(_request):
+    return HttpResponse(
+        "User-agent: *\n"
+        "Disallow:\n"
+        "Sitemap: https://inschurance.online/sitemap.xml\n",
+        content_type="text/plain"
+    )
