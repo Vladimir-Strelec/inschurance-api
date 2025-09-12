@@ -2,243 +2,207 @@
 {% block content %}
 
 <style>
-    /* Allgemeiner Stil animated-section */
-    .animated-section {
-      opacity: 0;
-      transform: translate(0, 20px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-      visibility: hidden;
-    }
-    .animated-section.visible {
-      opacity: 1;
-      transform: translate(0, 0);
-      visibility: visible;
-    }
-    .from-left {
-      transform: translateX(-40px);
-    }
-    .from-right {
-      transform: translateX(40px);
-    }
-    .from-bottom {
-      transform: translateY(40px);
-    }
+  /* Allgemeiner Stil animated-section */
+  .animated-section {
+    opacity: 0;
+    transform: translate(0, 20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    visibility: hidden;
+  }
+  .animated-section.visible { opacity: 1; transform: translate(0, 0); visibility: visible; }
+  .from-left { transform: translateX(-40px); }
+  .from-right { transform: translateX(40px); }
+  .from-bottom { transform: translateY(40px); }
+
+  /* Мини-утилиты для переносов длинных слов (нужны для слайдов) */
+  .hyphens-auto { hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; }
+  .break-words { overflow-wrap: anywhere; word-break: break-word; }
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
+  document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
 
-      document.querySelectorAll('.animated-section').forEach(el => observer.observe(el));
-    });
+    document.querySelectorAll('.animated-section').forEach(el => observer.observe(el));
+  });
 </script>
 
 <!-- Hero -->
 <section class="relative h-[90vh] flex items-center justify-center bg-fixed bg-center bg-cover"
          style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62');">
-    <div class="absolute inset-0 bg-black/40"></div>
-    <div class="relative z-10 text-white text-center px-4 animated-section from-bottom">
-        <h2 class="text-4xl md:text-5xl font-bold mb-4">Zuverlässige Versicherungslösungen</h2>
-        <p class="text-lg md:text-xl">Schützen Sie Ihre Zukunft mit Vertrauen – schon heute</p>
-    </div>
+  <div class="absolute inset-0 bg-black/40"></div>
+  <div class="relative z-10 text-white text-center px-4 animated-section from-bottom">
+    <h2 class="text-4xl md:text-5xl font-bold mb-4">Zuverlässige Versicherungslösungen</h2>
+    <p class="text-lg md:text-xl">Schützen Sie Ihre Zukunft mit Vertrauen – schon heute</p>
+  </div>
 </section>
 
 <!-- Kategorien -->
-<section class="bg-white py-16" id="categories">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-primary text-center mb-10 animated-section from-bottom">Unsere Kategorien</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for cat in categories %}
-            <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 overflow-hidden animated-section {% cycle 'from-left' 'from-right' 'from-bottom' %}">
-                {% if cat.image_url %}
-                <div class="w-full h-40 bg-gray-50 flex items-center justify-center p-4">
-                    <img alt="{{ cat.name }}" class="max-h-28 max-w-full object-contain" src="{{ cat.image_url }}"/>
-                </div>
-                {% endif %}
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-primary mb-4">{{ cat.name }}</h3>
-                    <ul class="space-y-2">
-                        {% for sub in cat.subcategories.all %}
-                        <li class="transition duration-300 hover:translate-x-1">
-                            <a class="text-gray-700 hover:text-blue-500 font-medium"
-                               href="{% url 'category_detail' sub.slug %}">
-                                • {{ sub.name }}
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            {% endfor %}
+<section id="categories" class="bg-white py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-primary text-center mb-10 animated-section from-bottom">Unsere Kategorien</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for cat in categories %}
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-2xl transition transform hover:-translate-y-1 overflow-hidden animated-section {% cycle 'from-left' 'from-right' 'from-bottom' %}">
+        {% if cat.image_url %}
+        <div class="w-full h-40 bg-gray-50 flex items-center justify-center p-4">
+          <img src="{{ cat.image_url }}" alt="{{ cat.name }}" class="max-h-28 max-w-full object-contain"/>
         </div>
+        {% endif %}
+        <div class="p-6">
+          <h3 class="text-xl font-semibold text-primary mb-4">{{ cat.name }}</h3>
+          <ul class="space-y-2">
+            {% for sub in cat.subcategories.all %}
+            <li class="transition duration-300 hover:translate-x-1">
+              <a href="{% url 'category_detail' sub.slug %}" class="text-gray-700 hover:text-blue-500 font-medium">
+                • {{ sub.name }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 </section>
 
 <!-- Über uns -->
-<section class="bg-gray-100 py-16" id="about">
-    <div class="container mx-auto px-4 max-w-4xl flex flex-col md:flex-row items-center gap-10 fade-up">
-        <div class="md:w-1/2">
-            <h2 class="text-3xl font-bold text-primary mb-4">Über uns</h2>
-            <p class="text-lg text-gray-700">
-                Wir sind ein führendes Versicherungsunternehmen, das innovative Lösungen zum Schutz Ihrer Zukunft anbietet.
-                Zuverlässigkeit, Erfahrung und ein individueller Ansatz sind unsere Schlüsselprinzipien. Mit uns sind Sie sicher.
-            </p>
-        </div>
-        <div class="md:w-1/2">
-            <img alt="Unser Mitarbeiter"
-                 class="rounded-2xl shadow-xl w-full max-w-sm mx-auto"
-                 src="https://images.unsplash.com/photo-1623852881187-a3790f3b29ae?q=80&w=2047&auto=format&fit=crop">
-        </div>
+<section id="about" class="bg-gray-100 py-16">
+  <div class="container mx-auto px-4 max-w-4xl flex flex-col md:flex-row items-center gap-10 fade-up">
+    <div class="md:w-1/2">
+      <h2 class="text-3xl font-bold text-primary mb-4">Über uns</h2>
+      <p class="text-lg text-gray-700">
+        Wir sind ein führendes Versicherungsunternehmen, das innovative Lösungen zum Schutz Ihrer Zukunft anbietet.
+        Zuverlässigkeit, Erfahrung und ein individueller Ansatz sind unsere Schlüsselprinzipien. Mit uns sind Sie sicher.
+      </p>
     </div>
+    <div class="md:w-1/2">
+      <img src="https://images.unsplash.com/photo-1623852881187-a3790f3b29ae?q=80&w=2047&auto=format&fit=crop"
+           alt="Unser Mitarbeiter" class="rounded-2xl shadow-xl w-full max-w-sm mx-auto">
+    </div>
+  </div>
 </section>
 
 <!-- Kontakt -->
-<section class="bg-white py-16" id="contact">
-    <div class="container mx-auto px-4 max-w-xl">
-        <h2 class="text-3xl font-bold text-primary text-center mb-6 animated-section from-bottom">Kontaktieren Sie uns</h2>
-
-        <div id="main-form-container">
-            {% include "categories/contact_form.html" with is_mini=False %}
-        </div>
-
+<section id="contact" class="bg-white py-16">
+  <div class="container mx-auto px-4 max-w-xl">
+    <h2 class="text-3xl font-bold text-primary text-center mb-6 animated-section from-bottom">Kontaktieren Sie uns</h2>
+    <div id="main-form-container">
+      {% include "categories/contact_form.html" with is_mini=False %}
     </div>
+  </div>
 </section>
 
-<!-- Karussell -->
-<div class="overflow-x-auto scroll-smooth snap-x snap-mandatory px-4 -mx-4" id="carousel"
-     style="will-change: transform;">
-    <section class="bg-gray-50 py-12 fade-up">
+<!-- Karussell (mobile-safe) -->
+<section class="bg-gray-50 py-12 fade-up">
+  <h3 class="text-2xl font-bold text-center text-primary mb-8">Echte Versicherungsgeschichten</h3>
 
-        <h3 class="text-2xl font-bold text-center text-primary mb-8">Echte Versicherungs­geschichten</h3>
+  <!-- Swiper Container (использует инициализацию из base.html) -->
+  <div class="stories-swiper swiper w-full md:px-12 px-4 max-w-7xl mx-auto">
+    <div class="swiper-wrapper">
+      {% for story in stories %}
+      <div class="swiper-slide flex flex-col bg-white shadow-md rounded-xl p-5
+                  w-[88vw] sm:w-[420px] min-w-[300px] max-w-[460px] leading-relaxed">
+        <h4 class="text-primary font-semibold text-lg mb-2 break-words hyphens-auto">{{ story.title }}</h4>
+        <p class="text-gray-700 text-sm break-words hyphens-auto">{{ story.content|truncatechars:150 }}</p>
+        <a href="{{ story.url }}" class="text-blue-600 hover:text-blue-800 font-medium mt-3 inline-block transition">Weiterlesen</a>
+      </div>
+      {% endfor %}
+    </div>
 
-        <!-- Swiper Wrapper -->
-        <div class="swiper w-full px-16 max-w-16xl mx-auto">
-            <div class="swiper-wrapper">
-                {% for story in stories %}
-                <div class="swiper-slide bg-white shadow-md rounded-xl p-6 sm:w-[400px] w-[85vw] transition hover:shadow-xl hover:-translate-y-1">
-                    <h4 class="text-primary font-semibold text-lg mb-2">{{ story.title }}</h4>
-                    <p class="text-gray-700 text-sm">{{ story.content|truncatechars:150 }}</p>
-                    <a class="text-blue-600 hover:text-blue-800 font-medium mt-2 inline-block transition" href="{{ story.url }}">Weiterlesen</a>
-                </div>
-                {% endfor %}
-            </div>
+    <!-- Стрелки показываем только на ≥ sm -->
+    <div class="swiper-button-prev hidden sm:flex text-primary"></div>
+    <div class="swiper-button-next hidden sm:flex text-primary"></div>
 
-            <!-- Pfeile -->
-            <div class="swiper-button-next text-primary"></div>
-            <div class="swiper-button-prev text-primary"></div>
-
-            <!-- Punkte -->
-            <div class="swiper-pagination mt-4"></div>
-        </div>
-    </section>
-</div>
+    <!-- Точки -->
+    <div class="swiper-pagination mt-4"></div>
+  </div>
+</section>
 
 <!-- Zweiter Parallax -->
 <section class="relative h-[50vh] flex items-center justify-center bg-fixed bg-center bg-cover"
          style="background-image: url('https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&q=80&w=2048');">
-    <div class="absolute inset-0 bg-black/50"></div>
-    <div class="relative z-10 text-white text-center px-4 fade-up">
-        <h3 class="text-3xl md:text-4xl font-bold mb-2">Jede Geschichte ist eine Erfahrung</h3>
-        <p class="text-lg">Wir helfen Menschen, nach dem Unerwarteten wieder Vertrauen zu gewinnen</p>
-    </div>
+  <div class="absolute inset-0 bg-black/50"></div>
+  <div class="relative z-10 text-white text-center px-4 fade-up">
+    <h3 class="text-3xl md:text-4xl font-bold mb-2">Jede Geschichte ist eine Erfahrung</h3>
+    <p class="text-lg">Wir helfen Menschen, nach dem Unerwarteten wieder Vertrauen zu gewinnen</p>
+  </div>
 </section>
 
 <!-- Versicherungsrechner -->
-<section class="bg-white py-16 fade-up" id="insurance-calc">
-    <div class="container mx-auto px-4 max-w-2xl">
-        <h2 class="text-3xl font-bold text-primary text-center mb-6">Versicherung berechnen</h2>
+<section id="insurance-calc" class="bg-white py-16 fade-up">
+  <div class="container mx-auto px-4 max-w-2xl">
+    <h2 class="text-3xl font-bold text-primary text-center mb-6">Versicherung berechnen</h2>
 
-        <form
-                class="space-y-4 bg-gray-50 p-6 rounded-xl shadow"
-                hx-post="{% url 'calculate_insurance' %}"
-                hx-swap="innerHTML"
-                hx-target="#calc-result"
-                id="calc-form">
+    <form id="calc-form" class="space-y-4 bg-gray-50 p-6 rounded-xl shadow"
+          hx-post="{% url 'calculate_insurance' %}"
+          hx-target="#calc-result" hx-swap="innerHTML">
+      {% csrf_token %}
+      <div>
+        <label class="block mb-1 text-sm font-medium">Versicherungsart</label>
+        <select name="type" class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary">
+          <option value="life">Leben</option>
+          <option value="auto">Auto</option>
+          <option value="property">Eigentum</option>
+        </select>
+      </div>
+      <div>
+        <label class="block mb-1 text-sm font-medium">Deckungssumme (€)</label>
+        <input type="number" name="amount" required class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary">
+      </div>
+      <div>
+        <label class="block mb-1 text-sm font-medium">Alter</label>
+        <input type="number" name="age" required class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary">
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Berechnen</button>
+    </form>
 
-            {% csrf_token %}
-
-            <div>
-                <label class="block mb-1 text-sm font-medium">Versicherungsart</label>
-                <select class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary"
-                        name="type">
-                    <option value="life">Leben</option>
-                    <option value="auto">Auto</option>
-                    <option value="property">Eigentum</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block mb-1 text-sm font-medium">Deckungssumme (€)</label>
-                <input class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary" name="amount"
-                       required type="number">
-            </div>
-
-            <div>
-                <label class="block mb-1 text-sm font-medium">Alter</label>
-                <input class="w-full rounded border-gray-300 focus:ring-primary focus:border-primary" name="age"
-                       required type="number">
-            </div>
-
-            <button class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-                    type="submit">
-                Berechnen
-            </button>
-        </form>
-
-        <div class="mt-6" id="calc-result"></div>
-    </div>
+    <div id="calc-result" class="mt-6"></div>
+  </div>
 </section>
 
 <!-- Vorteile -->
 <section class="bg-white py-16">
-    <div class="container mx-auto px-4 text-center">
-        <h3 class="text-3xl font-bold text-primary mb-12 animated-section from-bottom">
-            Warum man uns wählt
-        </h3>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-left">
-                <!-- SVG-Icon -->
-                <svg aria-hidden="true" class="mx-auto mb-4 w-12 h-12 fill-current text-primary">
-                    <use href="#icon-shield-check"></use>
-                </svg>
-                <h4 class="text-xl font-semibold mb-2">Zuverlässigkeit</h4>
-                <p class="text-gray-600">Garantien für Kunden.</p>
-            </a>
-            <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-bottom delay-200">
-                <svg aria-hidden="true" class="mx-auto mb-4 w-12 h-12 fill-current text-primary">
-                    <use href="#icon-clock"></use>
-                </svg>
-                <h4 class="text-xl font-semibold mb-2">Schnelle Abwicklung</h4>
-                <p class="text-gray-600">Minimaler Papierkram.</p>
-            </a>
-            <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-right delay-400">
-                <svg aria-hidden="true" class="mx-auto mb-4 w-12 h-12 fill-current text-primary">
-                    <use href="#icon-headphones"></use>
-                </svg>
-                <h4 class="text-xl font-semibold mb-2">Support 24/7</h4>
-                <p class="text-gray-600">Unterstützung bei allen Fragen.</p>
-            </a>
-        </div>
+  <div class="container mx-auto px-4 text-center">
+    <h3 class="text-3xl font-bold text-primary mb-12 animated-section from-bottom">Warum man uns wählt</h3>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-left">
+        <svg class="mx-auto mb-4 w-12 h-12 fill-current text-primary" aria-hidden="true"><use href="#icon-shield-check"></use></svg>
+        <h4 class="text-xl font-semibold mb-2">Zuverlässigkeit</h4>
+        <p class="text-gray-600">Garantien für Kunden.</p>
+      </a>
+      <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-bottom delay-200">
+        <svg class="mx-auto mb-4 w-12 h-12 fill-current text-primary" aria-hidden="true"><use href="#icon-clock"></use></svg>
+        <h4 class="text-xl font-semibold mb-2">Schnelle Abwicklung</h4>
+        <p class="text-gray-600">Minimaler Papierkram.</p>
+      </a>
+      <a class="p-6 bg-gray-50 rounded-xl shadow hover:shadow-xl transition transform hover:-translate-y-1 animated-section from-right delay-400">
+        <svg class="mx-auto mb-4 w-12 h-12 fill-current text-primary" aria-hidden="true"><use href="#icon-headphones"></use></svg>
+        <h4 class="text-xl font-semibold mb-2">Support 24/7</h4>
+        <p class="text-gray-600">Unterstützung bei allen Fragen.</p>
+      </a>
     </div>
+  </div>
 </section>
 
 <svg style="display:none;">
-    <symbol id="icon-shield-check" viewBox="0 0 24 24">
-        <path d="M12 2l7 4v6c0 5.25-3.25 9.25-7 10-3.75-.75-7-4.75-7-10V6l7-4zM10 14l-2-2 1.4-1.4L10 11.2l4.6-4.6L16 8l-6 6z"/>
-    </symbol>
-    <symbol id="icon-clock" viewBox="0 0 24 24">
-        <path d="M12 1a11 11 0 1 0 11 11A11.012 11.012 0 0 0 12 1zm0 20a9 9 0 1 1 9-9a9.01 9.01 0 0 1-9 9zm.5-13h-1v6l5.25 3.15l.5-.85l-4.75-2.8z"/>
-    </symbol>
-    <symbol id="icon-headphones" viewBox="0 0 24 24">
-        <path d="M12 1C6.48 1 2 5.48 2 11v9a2 2 0 0 0 2 2h3v-8H4v-3a8 8 0 0 1 16 0v3h-3v8h3a2 2 0 0 0 2-2v-9c0-5.52-4.48-10-10-10z"/>
-    </symbol>
+  <symbol id="icon-shield-check" viewBox="0 0 24 24">
+    <path d="M12 2l7 4v6c0 5.25-3.25 9.25-7 10-3.75-.75-7-4.75-7-10V6l7-4zM10 14l-2-2 1.4-1.4L10 11.2l4.6-4.6L16 8l-6 6z"/>
+  </symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24">
+    <path d="M12 1a11 11 0 1 0 11 11A11.012 11.012 0 0 0 12 1zm0 20a9 9 0 1 1 9-9a9.01 9.01 0 0 1-9 9zm.5-13h-1v6l5.25 3.15l.5-.85l-4.75-2.8z"/>
+  </symbol>
+  <symbol id="icon-headphones" viewBox="0 0 24 24">
+    <path d="M12 1C6.48 1 2 5.48 2 11v9a2 2 0 0 0 2 2h3v-8H4v-3a8 8 0 0 1 16 0v3h-3v8h3a2 2 0 0 0 2-2v-9c0-5.52-4.48-10-10-10z"/>
+  </symbol>
 </svg>
 
 {% endblock %}

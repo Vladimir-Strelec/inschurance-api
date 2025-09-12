@@ -5,58 +5,73 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>{% block title %}Insurance UI{% endblock %}</title>
-    <meta content="{% block meta_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular. Schnelle Beratung und klare Tarife.{% endblock %}" name="description">
+    <meta content="{% block meta_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular. Schnelle Beratung und klare Tarife.{% endblock %}"
+          name="description">
     <link href="https://inschurance.online{{ request.path|default:'/' }}" rel="canonical">
-
     <link href="https://inschurance.online{{ request.path|default:'/' }}" hreflang="de" rel="alternate">
     <link href="https://inschurance.online{{ request.path|default:'/' }}" hreflang="x-default" rel="alternate">
-
-    <link href="https://www.inschurance.online{{ request.path|default:'/' }}" rel="canonical">
-    <link href="https://www.inschurance.online{{ request.path|default:'/' }}" hreflang="de" rel="alternate">
-    <link href="https://www.inschurance.online{{ request.path|default:'/' }}" hreflang="x-default" rel="alternate">
-    <meta content="https://www.inschurance.online{{ request.path|default:'/' }}" property="og:url">
+    <meta content="https://inschurance.online{{ request.path|default:'/' }}" property="og:url">
 
     <!-- Open Graph -->
     <meta content="website" property="og:type">
     <meta content="Insurance Portal" property="og:site_name">
     <meta content="{% block og_title %}Insurance UI{% endblock %}" property="og:title">
-    <meta content="{% block og_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular.{% endblock %}" property="og:description">
-    <meta content="https://inschurance.online{{ request.path|default:'/' }}" property="og:url">
+    <meta content="{% block og_description %}Versicherungen in Nürnberg: Kategorien, Unterkategorien und Anfrageformular.{% endblock %}"
+          property="og:description">
     <meta content="{% block og_image %}https://placehold.co/1200x630/png{% endblock %}" property="og:image">
 
     <!-- Twitter Card -->
     <meta content="summary_large_image" name="twitter:card">
     <meta content="{% block tw_title %}Insurance UI{% endblock %}" name="twitter:title">
-    <meta content="{% block tw_description %}Versicherungen in Nürnberg: Beratung und Anfrage.{% endblock %}" name="twitter:description">
+    <meta content="{% block tw_description %}Versicherungen in Nürnberg: Beratung und Anfrage.{% endblock %}"
+          name="twitter:description">
     <meta content="{% block tw_image %}https://placehold.co/1200x630/png{% endblock %}" name="twitter:image">
 
-    <!-- Favicon -->
     <link href="data:," rel="icon">
 
-    <!-- Preconnect к CDN -->
-    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <!-- Preconnect -->
+    <link crossorigin href="https://cdn.tailwindcss.com" rel="preconnect">
+    <link crossorigin href="https://cdn.jsdelivr.net" rel="preconnect">
+    <link crossorigin href="https://unpkg.com" rel="preconnect">
+    <link crossorigin href="https://www.googletagmanager.com" rel="preconnect">
 
-    <!-- Tailwind CSS (defer) -->
+    <!-- Tailwind CSS -->
     <script defer src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
 
-    <!-- Swiper CSS: неблокирующее подключение -->
-    <link rel="preload"
-          href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-          as="style"
-          onload="this.onload=null;this.rel='stylesheet'">
+    <!-- Swiper CSS (non-blocking) -->
+    <link as="style" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+          onload="this.onload=null;this.rel='stylesheet'"
+          rel="preload">
     <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet">
     </noscript>
 
     <style>
-        @keyframes fade-up { 0%{opacity:0;transform:translateY(30px)} 100%{opacity:1;transform:translateY(0)} }
-        .animate-fade-up { animation: fade-up 0.8s ease-out forwards; }
-        html { scroll-behavior: smooth; overflow-x: hidden; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+        img, video, svg, canvas { max-width: 100%; height: auto; }
+        .overflow-x-clip { overflow-x: clip; }
+
+        /* Анимация появления */
+        @keyframes fade-up { 0% {opacity:0; transform: translateY(30px);} 100% {opacity:1; transform: translateY(0);} }
+        .animate-fade-up { animation: fade-up .8s ease-out forwards; }
+
+        /* Прячем стрелки и точки только у hero-слайдера */
+        .hero-swiper .swiper-button-prev,
+        .hero-swiper .swiper-button-next,
+        .hero-swiper .swiper-pagination { display: none !important; }
+        .hero-swiper { position: relative; }
+
+        html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5.5rem;
+        }
+        section[id], main[id], footer[id], header[id], h1[id], h2[id], h3[id] {
+            scroll-margin-top: 5.5rem;
+        }
     </style>
 
-    <!-- JSON-LD: WebSite -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -70,7 +85,6 @@
             }
         }
     </script>
-    <!-- JSON-LD: Organization -->
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -80,18 +94,57 @@
             "logo": "https://placehold.co/600x315/png"
         }
     </script>
+
+    <!-- GA4 по согласию -->
+    <script data-consent="analytics" data-src="https://www.googletagmanager.com/gtag/js?id=G-Z0SDRCBTSR"
+            type="text/plain"></script>
+    <script data-consent="analytics" type="text/plain">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-Z0SDRCBTSR', { anonymize_ip: true });
+    </script>
 </head>
 
-<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
-<header class="sticky top-0 z-50 bg-white shadow py-4">
-    <div class="container mx-auto px-4 flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-black-600">Insurance Portal</h1>
-        <nav aria-label="Hauptnavigation" class="space-x-4">
-            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#main">Startseite</a>
-            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#about">Über uns</a>
-            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#categories">Kategorien</a>
-            <a class="text-sm text-gray-600 hover:text-indigo-600" href="{% url 'category_ui' %}#contact">Anfrage hinterlassen</a>
-            <a class="text-sm text-gray-600 hover:text-indigo-600" href="#footer">Kontakt</a>
+<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col overflow-x-hidden">
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur transition-transform duration-200"
+        id="site-header">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+        <h1 class="text-xl md:text-2xl font-bold">Insurance Portal</h1>
+
+        <!-- Burger (mobile) -->
+        <button aria-controls="mobile-menu"
+                aria-expanded="false"
+                aria-label="Menü öffnen" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-md
+                   border border-gray-200 hover:bg-gray-50 focus:outline-none" id="nav-toggle">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor"
+                 stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+            </svg>
+        </button>
+
+        <!-- Desktop nav -->
+        <nav aria-label="Hauptnavigation" class="hidden md:flex items-center gap-6">
+            <a class="text-sm text-gray-700 hover:text-indigo-600" href="{% url 'category_ui' %}#main">Startseite</a>
+            <a class="text-sm text-gray-700 hover:text-indigo-600" href="{% url 'category_ui' %}#about">Über uns</a>
+            <a class="text-sm text-gray-700 hover:text-indigo-600"
+               href="{% url 'category_ui' %}#categories">Kategorien</a>
+            <a class="text-sm text-gray-700 hover:text-indigo-600" href="{% url 'category_ui' %}#contact">Anfrage
+                hinterlassen</a>
+            <a class="text-sm text-gray-700 hover:text-indigo-600" href="#footer">Kontakt</a>
+        </nav>
+    </div>
+
+    <!-- Mobile dropdown -->
+    <div class="md:hidden hidden border-t border-gray-200 bg-white" id="mobile-menu">
+        <nav aria-label="Mobile Navigation" class="px-4 py-3 flex flex-col gap-3">
+            <a class="py-2 text-gray-800 hover:text-indigo-600" href="{% url 'category_ui' %}#main">Startseite</a>
+            <a class="py-2 text-gray-800 hover:text-indigo-600" href="{% url 'category_ui' %}#about">Über uns</a>
+            <a class="py-2 text-gray-800 hover:text-indigo-600" href="{% url 'category_ui' %}#categories">Kategorien</a>
+            <a class="py-2 text-gray-800 hover:text-indigo-600" href="{% url 'category_ui' %}#contact">Anfrage
+                hinterlassen</a>
+            <a class="py-2 text-gray-800 hover:text-indigo-600" href="#footer">Kontakt</a>
         </nav>
     </div>
 </header>
@@ -101,9 +154,9 @@
 </main>
 
 <footer class="bg-gray-100 py-4 mt-10 border-t border-gray-200" id="footer">
-  <div class="container mx-auto px-4 text-base text-center text-gray-800">
-    &copy; 2025 Insurance Co. Alle Rechte vorbehalten.
-  </div>
+    <div class="container mx-auto px-4 text-base text-center text-gray-800">
+        &copy; 2025 Insurance Co. Alle Rechte vorbehalten.
+    </div>
 </footer>
 
 <!-- FAB-кнопка -->
@@ -111,7 +164,7 @@
         aria-controls="mini-form-container"
         aria-expanded="false"
         aria-label="Kontaktformular öffnen"
-        class="fixed bottom-8 right-4 bg-transparent w-16 h-16 rounded-full shadow-lg
+        class="fixed bottom-8 right-0.5 bg-transparent w-36 h-36
          flex items-center justify-center hover:scale-110 transition-transform duration-200
          outline-none focus:outline-none focus:ring-0 focus:ring-offset-0 active:outline-none"
         hx-get="{% url 'contact_form_partial' %}?mini=1"
@@ -119,36 +172,17 @@
         hx-target="#mini-form-container"
         id="contact-toggle"
         style="-webkit-tap-highlight-color: transparent;">
-    <img alt="Kontakt" class="w-8 h-8 pointer-events-none"
-         decoding="async"
-         loading="lazy"
+    <img alt="Kontakt" class="w-20 h-20 pointer-events-none"
+         decoding="async" loading="lazy"
          src="https://www.reshot.com/preview-assets/icons/E2AXH8J35C/to-do-list-E2AXH8J35C.svg"/>
 </button>
 
-<!-- Контейнер для мини-формы -->
-<div aria-labelledby="mini-form-title"
-     aria-modal="true"
-     class="hidden fixed bottom-28 right-6 bg-white p-4 rounded-lg shadow-lg w-80 border border-gray-200"
-     id="mini-form-container"
-     role="dialog"></div>
-
-<!-- Скрипт: логика открытия/закрытия -->
-<script>
-    document.addEventListener('click', e => {
-      const toggle = document.getElementById('contact-toggle');
-      const drawer = document.getElementById('mini-form-container');
-      const clickedToggle = toggle.contains(e.target);
-      const clickedOutside = !drawer.contains(e.target) && !clickedToggle;
-
-      if (clickedToggle) {
-        drawer.classList.toggle('hidden');
-        toggle.setAttribute('aria-expanded', drawer.classList.contains('hidden') ? 'false' : 'true');
-      } else if (clickedOutside) {
-        drawer.classList.add('hidden');
-        toggle.setAttribute('aria-expanded', 'false');
-      }
-    });
-</script>
+<!-- Контейнер мини-формы -->
+<div aria-modal="true"
+     class="hidden fixed bottom-20 right-4 bg-white p-4 rounded-lg shadow-lg border border-gray-200
+            max-w-sm w-[calc(100vw-2rem)] sm:w-80" id="mini-form-container"
+     role="dialog">
+</div>
 
 <!-- HTMX -->
 <script defer src="https://unpkg.com/htmx.org@1.9.2"></script>
@@ -156,27 +190,275 @@
 <!-- Swiper JS -->
 <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+<!-- Единый JS-блок -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-      if (document.querySelector('.swiper')) {
-        const swiper = new Swiper('.swiper', {
-          slidesPerView: 1.2, spaceBetween: 20, centeredSlides: true, loop: true,
+      // Мини-форма: открыть/закрыть по клику
+      document.addEventListener('click', (e) => {
+        const toggle = document.getElementById('contact-toggle');
+        const drawer = document.getElementById('mini-form-container');
+        if (!toggle || !drawer) return;
+
+        const clickedToggle = toggle.contains(e.target);
+        const clickedOutside = !drawer.contains(e.target) && !clickedToggle;
+
+        if (clickedToggle) {
+          drawer.classList.toggle('hidden');
+          toggle.setAttribute('aria-expanded', drawer.classList.contains('hidden') ? 'false' : 'true');
+        } else if (clickedOutside) {
+          drawer.classList.add('hidden');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Swiper init: каждый .swiper отдельно; у hero-swiper без стрелок и точек
+      document.querySelectorAll('.swiper').forEach(el => {
+        if (typeof Swiper === 'undefined') return;
+        const isHero = el.classList.contains('hero-swiper');
+
+        new Swiper(el, {
+          slidesPerView: isHero ? 1 : 1.05,
+          spaceBetween: isHero ? 0 : 16,
+          centeredSlides: isHero,
+          loop: true,
+          watchOverflow: isHero ? false : true,
+          observer: true,
+          observeParents: true,
+          observeSlideChildren: true,
           autoplay: { delay: 4000, disableOnInteraction: false },
-          pagination: { el: '.swiper-pagination', clickable: true },
-          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-          breakpoints: { 640:{slidesPerView:1.5}, 768:{slidesPerView:2}, 1024:{slidesPerView:3} }
+          // у героя не подключаем навигацию и пагинацию вообще
+          ...(isHero ? {} : {
+            pagination: { el: el.querySelector('.swiper-pagination'), clickable: true },
+            navigation: {
+              nextEl: el.querySelector('.swiper-button-next'),
+              prevEl: el.querySelector('.swiper-button-prev')
+            }
+          }),
+          breakpoints: isHero
+            ? { 640:{ slidesPerView: 1 }, 1024:{ slidesPerView: 1 } }
+            : {
+                640:  { slidesPerView: 1.5, centeredSlides: true, spaceBetween: 20 },
+                768:  { slidesPerView: 2,   centeredSlides: true, spaceBetween: 20 },
+                1024: { slidesPerView: 3,   centeredSlides: true, spaceBetween: 24 }
+              }
         });
-      }
-      const observer = new IntersectionObserver(entries => {
+      });
+
+      // Анимация появления для .fade-up
+      const observer = new IntersectionObserver((entries, ob) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('animate-fade-up');
-            observer.unobserve(entry.target);
+            ob.unobserve(entry.target);
           }
         });
       }, { threshold: 0.1 });
       document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+      // Burger toggle
+      const btn = document.getElementById('nav-toggle');
+      const menu = document.getElementById('mobile-menu');
+      if (btn && menu) {
+        btn.addEventListener('click', () => {
+          const isHidden = menu.classList.contains('hidden');
+          menu.classList.toggle('hidden');
+          btn.setAttribute('aria-expanded', String(isHidden));
+          btn.innerHTML = isHidden
+            ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+               </svg>`
+            : `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+               </svg>`;
+        });
+
+        // Закрывать меню при клике по ссылке
+        menu.addEventListener('click', (e) => {
+          if (e.target.tagName === 'A') {
+            menu.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+            btn.innerHTML =
+              `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+               </svg>`;
+          }
+        });
+      }
+
+      // Скрывать хедер при скролле вниз, показывать при скролле вверх
+      const header = document.getElementById('site-header');
+      if (header) {
+        let lastY = window.scrollY, ticking = false;
+        function onScroll() {
+          const y = window.scrollY, goingDown = y > lastY, past = y > 32;
+          if (goingDown && past) header.classList.add('-translate-y-full');
+          else header.classList.remove('-translate-y-full');
+          lastY = y; ticking = false;
+        }
+        window.addEventListener('scroll', () => {
+          if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+        }, { passive: true });
+      }
     });
 </script>
+
+<!-- === Cookie Banner & Consent === -->
+<style>.hyphens-auto{hyphens:auto;-webkit-hyphens:auto;-ms-hyphens:auto}</style>
+
+<div class="fixed inset-x-0 bottom-0 z-[60] bg-white border-t border-gray-200 shadow-lg
+            md:max-w-4xl md:bottom-6 md:left-1/2 md:-translate-x-1/2 md:rounded-xl md:border md:px-6
+            p-4 mx-auto hidden"
+     id="cookie-banner">
+    <div class="flex gap-4 items-start">
+        <div class="flex-1 text-sm text-gray-800 hyphens-auto">
+            <p class="font-semibold mb-1">Cookies & Datenschutz</p>
+            <p class="text-gray-600">
+                Wir verwenden nur notwendige Cookies. Mit Ihrer Zustimmung aktivieren wir zusätzlich
+                <span class="font-medium">Analyse</span> und <span class="font-medium">Marketing</span>.
+                Sie können Ihre Auswahl jederzeit ändern.
+            </p>
+            <button class="mt-2 text-indigo-600 hover:text-indigo-800 text-sm underline" id="open-cookie-prefs">
+                Einstellungen
+            </button>
+        </div>
+        <div class="flex gap-2 shrink-0">
+            <button class="px-3 py-2 text-sm rounded-md border border-gray-300 hover:bg-gray-50"
+                    id="btn-reject-all">
+                Nur notwendige
+            </button>
+            <button class="px-3 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-700"
+                    id="btn-accept-all">
+                Alle akzeptieren
+            </button>
+        </div>
+    </div>
+</div>
+
+<button class="fixed bottom-4 left-4 z-[50] text-xs text-gray-600 underline bg-white/70 backdrop-blur px-2 py-1 rounded
+               hover:text-indigo-700 hidden"
+        id="manage-cookies-link">
+    Cookie-Einstellungen
+</button>
+
+<div class="fixed inset-0 z-[70] hidden" id="cookie-modal">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative bg-white w-[min(92vw,560px)] rounded-xl shadow-xl p-5 mx-auto mt-[10vh]">
+        <div class="flex items-start justify-between mb-3">
+            <h3 class="text-lg font-semibold">Cookie-Einstellungen</h3>
+            <button aria-label="Schließen" class="p-1 rounded hover:bg-gray-100" id="cookie-modal-close">✕</button>
+        </div>
+
+        <form class="space-y-3" id="cookie-form">
+            <label class="flex items-start gap-3">
+                <input checked class="mt-1" disabled type="checkbox">
+                <span><span class="font-medium">Notwendig</span>
+        <span class="block text-sm text-gray-600">Erforderlich für die Grundfunktionalität.</span></span>
+            </label>
+            <label class="flex items-start gap-3">
+                <input class="mt-1" id="consent-analytics" type="checkbox">
+                <span><span class="font-medium">Analyse</span>
+        <span class="block text-sm text-gray-600">Anonyme Nutzungsstatistiken (z. B. Analytics).</span></span>
+            </label>
+            <label class="flex items-start gap-3">
+                <input class="mt-1" id="consent-marketing" type="checkbox">
+                <span><span class="font-medium">Marketing</span>
+        <span class="block text-sm text-gray-600">Personalisierte Inhalte und Kampagnen.</span></span>
+            </label>
+
+            <div class="flex justify-end gap-2 pt-2">
+                <button class="px-3 py-2 text-sm rounded-md bg-indigo-600 text-white hover:bg-indigo-700" id="cookie-save"
+                        type="button">
+                    Speichern
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    (function() {
+      const BANNER   = document.getElementById('cookie-banner');
+      const MODAL    = document.getElementById('cookie-modal');
+      const BTN_ACC  = document.getElementById('btn-accept-all');
+      const BTN_REJ  = document.getElementById('btn-reject-all');
+      const BTN_OPEN = document.getElementById('open-cookie-prefs');
+      const BTN_LINK = document.getElementById('manage-cookies-link');
+      const BTN_SAVE = document.getElementById('cookie-save');
+      const BTN_X    = document.getElementById('cookie-modal-close');
+
+      const CHK_ANAL = document.getElementById('consent-analytics');
+      const CHK_MARK = document.getElementById('consent-marketing');
+
+      const COOKIE_NAME = 'cookie_consent_v1';
+      const MAX_AGE = 60 * 60 * 24 * 180;
+
+      function parseCookie(name) {
+        const m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([$?*|{}\]\\\/\+\^])/g,'\\$1') + '=([^;]*)'));
+        try { return m ? JSON.parse(decodeURIComponent(m[1])) : null; } catch { return null; }
+      }
+      function setCookie(name, val, maxAge) {
+        const value = encodeURIComponent(JSON.stringify(val));
+        const secure = location.protocol === 'https:' ? '; secure' : '';
+        document.cookie = `${name}=${value}; path=/; samesite=lax; max-age=${maxAge}${secure}`;
+      }
+
+      function getConsent() { return parseCookie(COOKIE_NAME); }
+      function saveConsent(consent) { setCookie(COOKIE_NAME, consent, MAX_AGE); applyConsent(consent); }
+
+      function defaultConsent() {
+        const dnt = (navigator.doNotTrack === '1' || window.doNotTrack === '1');
+        return { necessary: true, analytics: false || !dnt && false, marketing: false || !dnt && false, setAt: Date.now() };
+      }
+
+      function show(el){ el && el.classList.remove('hidden'); }
+      function hide(el){ el && el.classList.add('hidden'); }
+
+      function openModal() {
+        const c = getConsent() || defaultConsent();
+        CHK_ANAL.checked = !!c.analytics;
+        CHK_MARK.checked = !!c.marketing;
+        show(MODAL);
+      }
+      function closeModal(){ hide(MODAL); }
+
+      function applyConsent(consent) {
+        document.querySelectorAll('script[type="text/plain"][data-consent]').forEach(stub => {
+          const scope = stub.dataset.consent; if (!scope) return;
+          const allowed = !!consent[scope]; const already = stub.dataset.executed === '1';
+          if (allowed && !already) {
+            const real = document.createElement('script');
+            // скопировать все доп. атрибуты, кроме служебных
+            for (const attr of Array.from(stub.attributes)) {
+              if (attr.name === 'type' || attr.name === 'data-consent' || attr.name === 'data-src') continue;
+              real.setAttribute(attr.name, attr.value);
+            }
+            if (stub.dataset.src) { real.src = stub.dataset.src; real.async = true; }
+            if (stub.textContent.trim()) real.text = stub.textContent;
+            real.dataset.executed = '1';
+            stub.replaceWith(real);
+          }
+        });
+        show(BTN_LINK); hide(BANNER);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        let consent = getConsent();
+        if (!consent) { consent = defaultConsent(); show(BANNER); } else { applyConsent(consent); }
+
+        BTN_ACC?.addEventListener('click', () => saveConsent({ necessary: true, analytics: true, marketing: true, setAt: Date.now() }));
+        BTN_REJ?.addEventListener('click', () => saveConsent({ necessary: true, analytics: false, marketing: false, setAt: Date.now() }));
+        BTN_OPEN?.addEventListener('click', openModal);
+        BTN_LINK?.addEventListener('click', openModal);
+        BTN_X?.addEventListener('click', closeModal);
+        BTN_SAVE?.addEventListener('click', () => { saveConsent({ necessary: true, analytics: CHK_ANAL.checked, marketing: CHK_MARK.checked, setAt: Date.now() }); closeModal(); });
+        MODAL?.addEventListener('click', (e) => { if (e.target === MODAL) closeModal(); });
+      });
+    })();
+</script>
+<!-- === /Cookie Banner & Consent === -->
+
 </body>
 </html>
