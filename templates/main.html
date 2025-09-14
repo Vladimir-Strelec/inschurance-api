@@ -35,10 +35,10 @@
 </script>
 
 <!-- Hero -->
-<section class="relative h-[90vh] flex items-center justify-center bg-fixed bg-center bg-cover"
-         style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62');">
+<section class="relative h-[90vh] flex items-center justify-center bg-fixed bg-center bg-cover ios-fixed"
+         style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=1600&q=80');">
   <div class="absolute inset-0 bg-black/40"></div>
-  <div class="relative z-10 text-white text-center px-4 animated-section from-bottom">
+  <div class="relative z-10 text-white text-center px-4">
     <h2 class="text-4xl md:text-5xl font-bold mb-4">Zuverlässige Versicherungslösungen</h2>
     <p class="text-lg md:text-xl">Schützen Sie Ihre Zukunft mit Vertrauen – schon heute</p>
   </div>
@@ -205,4 +205,36 @@
   </symbol>
 </svg>
 
+/* Хелпер: подтягиваем URL фона из inline-style секции */
+.ios-fixed {
+  --hero-bg: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=1600&q=80');
+}
+
+/* iOS/мобильный таргет: используем fixed-псевдослой вместо background-attachment: fixed */
+@supports (-webkit-touch-callout: none) {
+  .ios-fixed {
+    background-image: none !important;      /* не трогаем класс bg-fixed, просто не рисуем фон */
+    position: relative;
+    overflow: clip;
+  }
+  .ios-fixed::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;                             /* уходит под контент секции */
+    background-image: var(--hero-bg);
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+    transform: translateZ(0) scale(1.05);    /* легкий запас, чтобы не появлялись края при скролле */
+  }
+  /* затемняющая вуаль остаётся твоей .bg-black/40, можно и тут продублировать при желании */
+}
+
+/* Чуть повышаем чёткость на ретина-экранах */
+@media (min-resolution: 2dppx) {
+  .ios-fixed {
+    --hero-bg: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=2048&q=82');
+  }
+}
 {% endblock %}
