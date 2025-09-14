@@ -205,36 +205,4 @@
   </symbol>
 </svg>
 
-/* Хелпер: подтягиваем URL фона из inline-style секции */
-.ios-fixed {
-  --hero-bg: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=1600&q=80');
-}
-
-/* iOS/мобильный таргет: используем fixed-псевдослой вместо background-attachment: fixed */
-@supports (-webkit-touch-callout: none) {
-  .ios-fixed {
-    background-image: none !important;      /* не трогаем класс bg-fixed, просто не рисуем фон */
-    position: relative;
-    overflow: clip;
-  }
-  .ios-fixed::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;                             /* уходит под контент секции */
-    background-image: var(--hero-bg);
-    background-size: cover;
-    background-position: center;
-    will-change: transform;
-    transform: translateZ(0) scale(1.05);    /* легкий запас, чтобы не появлялись края при скролле */
-  }
-  /* затемняющая вуаль остаётся твоей .bg-black/40, можно и тут продублировать при желании */
-}
-
-/* Чуть повышаем чёткость на ретина-экранах */
-@media (min-resolution: 2dppx) {
-  .ios-fixed {
-    --hero-bg: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=2048&q=82');
-  }
-}
 {% endblock %}
